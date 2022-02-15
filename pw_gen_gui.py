@@ -29,7 +29,7 @@ class PasswordGenUI(QWidget):
     #
     # Will contain the password generation options and button followed by the
     # passphrase generation options and button.
-    # ------------------------------------------------------------------------=
+    # -------------------------------------------------------------------------
 
         # Init left layout of main layout
         left_layout = QVBoxLayout(self)
@@ -137,63 +137,68 @@ class PasswordGenUI(QWidget):
         self.pphrase_gen_btn.clicked.connect(self.generate_pphrase)
 
     # -------------------------------------------------------------------------
-    # Left Layout of Application
+    # Right Layout of Application
     #
-    # Will contain the password generation options and button followed by the
-    # passphrase generation options and button. Sliders and spin boxes in both
-    # sections will change simultaneously.
-    # ------------------------------------------------------------------------=
+    # Will contain the password generator output line with copy, calculate
+    # strength, and clear buttons, followed by the password strength tester
+    # section with an input box, a "calculate strength" button and two output
+    # boxes for displaying the strength and time to crack.
+    # -------------------------------------------------------------------------
 
         # Init right layout of main layout
         right_layout = QVBoxLayout(self)
 
-        # Add widgets to the password output box of the application
+        # Create a top right box containing the password generator output. Each
+        # widget has a spacer between it and the next widget
         top_right_box = QVBoxLayout(self)
         top_right_spacer = QSpacerItem(10, 20, QSizePolicy.Minimum,
                                        QSizePolicy.Expanding)
+
+        # Add spacers and a new <h3> header for the ouput section
         top_right_box.addItem(top_right_spacer)
         top_right_box.addWidget(QLabel('<h3>Password Output:</h3>', self))
         top_right_box.addItem(top_right_spacer)
 
+        # Create and add a read-only output line to the top right box
         self.output_line = QLineEdit(self)
         self.output_line.setReadOnly(True)
         top_right_box.addWidget(self.output_line)
-        top_right_box.addItem(top_right_spacer)
 
-        copy_layout = QHBoxLayout(self)
+        # Create and add a button layout with 3 buttons, copy, calculate
+        # strength, and clear buttons
+        output_btn_layout = QHBoxLayout(self)
         self.copy_btn = QPushButton('Copy', self)
-        copy_layout.addWidget(self.copy_btn)
+        output_btn_layout.addWidget(self.copy_btn)
         self.calc_output_btn = QPushButton('Calculate Strength')
-        copy_layout.addWidget(self.calc_output_btn)
+        output_btn_layout.addWidget(self.calc_output_btn)
         self.clear_btn = QPushButton('Clear', self)
-        copy_layout.addWidget(self.clear_btn)
-
-        top_right_box.addLayout(copy_layout)
+        output_btn_layout.addWidget(self.clear_btn)
+        top_right_box.addLayout(output_btn_layout)
         top_right_box.addItem(top_right_spacer)
 
-        # Add widgets to the strength tester box of the application
+        # Create a bottom right box holding the password strength output. Each
+        # widget has a spacer between it and the next widget
         bottom_right_box = QVBoxLayout(self)
         bott_right_spacer = QSpacerItem(10, 20, QSizePolicy.Minimum,
                                         QSizePolicy.Expanding)
-        bottom_right_box.addItem(bott_right_spacer)
 
+        # Add spacers and a new <h3> header for the strength tester section
+        bottom_right_box.addItem(bott_right_spacer)
         bottom_right_box.addWidget(
             QLabel('<h3>Test Password Strength:</h3>', self))
-
         bottom_right_box.addItem(bott_right_spacer)
 
-        enter_layout = QHBoxLayout(self)
-
+        # Create and add a password input line to bottom right box
         self.strength_input = QLineEdit(self)
         self.strength_input.setPlaceholderText('Enter password here')
-        enter_layout.addWidget(self.strength_input)
-        bottom_right_box.addLayout(enter_layout)
+        bottom_right_box.addWidget(self.strength_input)
 
+        # Create and add a "Calculate Strength" button
         self.calc_stren_btn = QPushButton('Calculate Strength', self)
         bottom_right_box.addWidget(self.calc_stren_btn)
-
         bottom_right_box.addItem(bott_right_spacer)
 
+        # Create and add a read-only strength output line to bottom right box
         strength_layout = QHBoxLayout(self)
         strength_layout.addWidget(QLabel('Est. Strength:', self))
         self.strength_output = QLineEdit(self)
@@ -201,13 +206,13 @@ class PasswordGenUI(QWidget):
         strength_layout.addWidget(self.strength_output)
         bottom_right_box.addLayout(strength_layout)
 
+        # Create and add a read-only time to crack output to bottom right box
         t2crack_layout = QHBoxLayout(self)
         t2crack_layout.addWidget(QLabel('Time to Crack:', self))
         self.t2crack_output = QLineEdit(self)
         self.t2crack_output.setReadOnly(True)
         t2crack_layout.addWidget(self.t2crack_output)
         bottom_right_box.addLayout(t2crack_layout)
-
         bottom_right_box.addItem(bott_right_spacer)
 
         # Add the two inner right boxes to the right layout of the main layout
