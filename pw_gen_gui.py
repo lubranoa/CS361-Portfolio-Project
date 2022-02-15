@@ -163,6 +163,7 @@ class PasswordGenUI(QWidget):
         self.output_line = QLineEdit(self)
         self.output_line.setReadOnly(True)
         top_right_box.addWidget(self.output_line)
+        top_right_box.addItem(top_right_spacer)
 
         # Create and add a button layout with 3 buttons, copy, calculate
         # strength, and clear buttons
@@ -175,6 +176,10 @@ class PasswordGenUI(QWidget):
         output_btn_layout.addWidget(self.clear_btn)
         top_right_box.addLayout(output_btn_layout)
         top_right_box.addItem(top_right_spacer)
+
+        self.copy_btn.clicked.connect(self.copy_output)
+        self.calc_output_btn.clicked.connect(self.calc_output_strength)
+        self.clear_btn.clicked.connect(self.clear_output)
 
         # Create a bottom right box holding the password strength output. Each
         # widget has a spacer between it and the next widget
@@ -192,9 +197,11 @@ class PasswordGenUI(QWidget):
         self.strength_input = QLineEdit(self)
         self.strength_input.setPlaceholderText('Enter password here')
         bottom_right_box.addWidget(self.strength_input)
+        bottom_right_box.addItem(bott_right_spacer)
 
         # Create and add a "Calculate Strength" button
         self.calc_stren_btn = QPushButton('Calculate Strength', self)
+        self.calc_stren_btn.clicked.connect(self.test_strength)
         bottom_right_box.addWidget(self.calc_stren_btn)
         bottom_right_box.addItem(bott_right_spacer)
 
@@ -214,6 +221,10 @@ class PasswordGenUI(QWidget):
         t2crack_layout.addWidget(self.t2crack_output)
         bottom_right_box.addLayout(t2crack_layout)
         bottom_right_box.addItem(bott_right_spacer)
+
+        self.clear_strength_fields = QPushButton('Clear Strength Fields', self)
+        self.clear_strength_fields.clicked.connect(self.clear_strength)
+        bottom_right_box.addWidget(self.clear_strength_fields)
 
         # Add the two inner right boxes to the right layout of the main layout
         # and separated by a horizontal line
@@ -245,18 +256,40 @@ class PasswordGenUI(QWidget):
         self.setLayout(main_layout)
 
     def set_len_spinbox(self):
+        """
+        When signaled by a change in the password length slider's value,
+        updates the value of the password length spin box
+        """
         self.len_spinbox.setValue(self.len_slider.value())
 
     def set_len_slider(self):
+        """
+        When signaled by a change in the password length spin box's value,
+        updates the value of the password length slider
+        """
         self.len_slider.setValue(self.len_spinbox.value())
 
     def set_pphrase_spinbox(self):
+        """
+        When signaled by a change in the passphrase length slider's value,
+        updates the value of the passphrase length spin box
+        """
         self.pphrase_spinbox.setValue(self.pphrase_slider.value())
 
     def set_pphrase_slider(self):
+        """
+        When signaled by a change in the passphrase length spin box's value,
+        updates the value of the passphrase length slider
+        """
         self.pphrase_slider.setValue(self.pphrase_spinbox.value())
 
     def generate_pword(self):
+        """
+        Will pass collected parameters to a microservice that will generate a
+        password and return it to this function
+
+        Displays it to the user in the designated output box
+        """
 
         pword_params = [0 for x in range(7)]
 
@@ -267,10 +300,17 @@ class PasswordGenUI(QWidget):
                 curr_chbx = self.pword_chbxs.button(i)
                 if curr_chbx.isChecked():
                     pword_params[i] = 1
-        print('Password parameters:', pword_params)
+
+        print('Generating a password with these parameters:', pword_params)
         self.output_line.setText('h5fip2gt')
 
     def generate_pphrase(self):
+        """
+        Will pass collected parameters to a microservice that will generate a
+        passphrase and return it to this function
+
+        Displays it to the user in the designated output box
+        """
 
         pphrase_params = [0 for x in range(3)]
 
@@ -279,8 +319,45 @@ class PasswordGenUI(QWidget):
         if self.include_a_num.isChecked():
             pphrase_params[2] = 1
 
-        print('Passphrase Parameters:', pphrase_params)
+        print('Generating a passphrase with these parameters:', pphrase_params)
         self.output_line.setText('words#7are#fun')
+
+    def copy_output(self):
+        """Copies the generated output to the clipboard"""
+
+        print('Password output copied to clipboard')
+        self.output_line.selectAll()
+        self.output_line.copy()
+        self.output_line.deselect()
+
+    def calc_output_strength(self):
+        """
+        Copy-pastes the generated output into the strength tester input then
+        calls the test strength method to calculate the output
+        """
+        self.strength_input.setText(self.output_line.text())
+        self.test_strength()
+
+    def clear_output(self):
+        """Clears the generated output from the output line"""
+        print('Password output cleared')
+        self.output_line.clear()
+
+    def test_strength(self):
+        """
+        Calls a microservice that will calculate and returen password
+        strength data
+        """
+        print('Testing this password:', self.strength_input.text())
+        self.strength_output.setText('1 - Too weak')
+        self.t2crack_output.setText('6 hours')
+
+    def clear_strength(self):
+        """Clears all text fields in the strength tester section"""
+        print('Strength input and outputs cleared')
+        self.strength_input.clear()
+        self.strength_output.clear()
+        self.t2crack_output.clear()
 
 
 if __name__ == '__main__':
