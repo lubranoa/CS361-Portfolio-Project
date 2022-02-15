@@ -122,6 +122,7 @@ class PasswordGenUI(QWidget):
         sep_char_layout = QHBoxLayout(self)
         sep_char_layout.addWidget(QLabel('Separator Character:', self))
         self.char_input = QLineEdit(self)
+        self.char_input.setMaxLength(1)
         sep_char_layout.addWidget(self.char_input)
         left_layout.addLayout(sep_char_layout)
 
@@ -159,77 +160,84 @@ class PasswordGenUI(QWidget):
         top_right_box.addWidget(self.output_line)
         top_right_box.addItem(top_right_spacer)
 
-        self.copy_layout = QHBoxLayout(self)
-        self.copy_layout.addWidget(QPushButton('Copy', self))
-        self.copy_layout.addWidget(QPushButton('Clear', self))
-        top_right_box.addLayout(self.copy_layout)
+        copy_layout = QHBoxLayout(self)
+        self.copy_btn = QPushButton('Copy', self)
+        copy_layout.addWidget(self.copy_btn)
+        self.calc_output_btn = QPushButton('Calculate Strength')
+        copy_layout.addWidget(self.calc_output_btn)
+        self.clear_btn = QPushButton('Clear', self)
+        copy_layout.addWidget(self.clear_btn)
+
+        top_right_box.addLayout(copy_layout)
         top_right_box.addItem(top_right_spacer)
 
         # Add widgets to the strength tester box of the application
-        self.bottom_right_box = QVBoxLayout(self)
-        self.bott_right_spacer = QSpacerItem(10, 20, QSizePolicy.Minimum,
-                                             QSizePolicy.Expanding)
-        self.bottom_right_box.addItem(self.bott_right_spacer)
+        bottom_right_box = QVBoxLayout(self)
+        bott_right_spacer = QSpacerItem(10, 20, QSizePolicy.Minimum,
+                                        QSizePolicy.Expanding)
+        bottom_right_box.addItem(bott_right_spacer)
 
-        self.bottom_right_box.addWidget(
+        bottom_right_box.addWidget(
             QLabel('<h3>Test Password Strength:</h3>', self))
 
-        self.bottom_right_box.addItem(self.bott_right_spacer)
+        bottom_right_box.addItem(bott_right_spacer)
 
-        self.enter_layout = QHBoxLayout(self)
-        self.enter_layout.addWidget(QLabel('Enter Password:', self))
-        self.enter_layout.addWidget(QLineEdit(self))
-        self.bottom_right_box.addLayout(self.enter_layout)
-        self.bottom_right_box.addWidget(QPushButton('Calculate', self))
+        enter_layout = QHBoxLayout(self)
 
-        self.bottom_right_box.addItem(self.bott_right_spacer)
+        self.strength_input = QLineEdit(self)
+        self.strength_input.setPlaceholderText('Enter password here')
+        enter_layout.addWidget(self.strength_input)
+        bottom_right_box.addLayout(enter_layout)
 
-        self.strength_layout = QHBoxLayout(self)
-        self.strength_layout.addWidget(QLabel('Strength:', self))
-        self.strength_layout.addWidget(QLineEdit(self))
-        self.bottom_right_box.addLayout(self.strength_layout)
+        self.calc_stren_btn = QPushButton('Calculate Strength', self)
+        bottom_right_box.addWidget(self.calc_stren_btn)
 
-        self.t2crack_layout = QHBoxLayout(self)
-        self.t2crack_layout.addWidget(QLabel('Time to Crack:', self))
-        self.t2crack_layout.addWidget(QLineEdit(self))
-        self.bottom_right_box.addLayout(self.t2crack_layout)
+        bottom_right_box.addItem(bott_right_spacer)
 
-        self.bottom_right_box.addItem(self.bott_right_spacer)
+        strength_layout = QHBoxLayout(self)
+        strength_layout.addWidget(QLabel('Est. Strength:', self))
+        self.strength_output = QLineEdit(self)
+        self.strength_output.setReadOnly(True)
+        strength_layout.addWidget(self.strength_output)
+        bottom_right_box.addLayout(strength_layout)
+
+        t2crack_layout = QHBoxLayout(self)
+        t2crack_layout.addWidget(QLabel('Time to Crack:', self))
+        self.t2crack_output = QLineEdit(self)
+        self.t2crack_output.setReadOnly(True)
+        t2crack_layout.addWidget(self.t2crack_output)
+        bottom_right_box.addLayout(t2crack_layout)
+
+        bottom_right_box.addItem(bott_right_spacer)
 
         # Add the two inner right boxes to the right layout of the main layout
         # and separated by a horizontal line
         right_layout.addLayout(top_right_box)
-        self.horiz_split = QFrame(self)
-        self.horiz_split.setFrameShape(QFrame.HLine)
-        self.horiz_split.setFrameShadow(QFrame.Sunken)
-        right_layout.addWidget(self.horiz_split)
-        right_layout.addLayout(self.bottom_right_box)
+        horiz_split = QFrame(self)
+        horiz_split.setFrameShape(QFrame.HLine)
+        horiz_split.setFrameShadow(QFrame.Sunken)
+        right_layout.addWidget(horiz_split)
+        right_layout.addLayout(bottom_right_box)
 
         # Add the left and right layouts to the main layout separated by a
         # vertical line and padded by vertical spacers on each side
-        self.left_spacer1 = QSpacerItem(10, 20, QSizePolicy.Minimum,
-                                        QSizePolicy.Expanding)
-        main_layout.addItem(self.left_spacer1)
+        main_layout.addItem(
+            QSpacerItem(10, 20, QSizePolicy.Minimum, QSizePolicy.Expanding))
         main_layout.addLayout(left_layout)
-        self.verti_split = QFrame(self)
-        self.verti_split.setFrameShape(QFrame.VLine)
-        self.verti_split.setFrameShadow(QFrame.Sunken)
-        self.left_spacer2 = QSpacerItem(10, 20, QSizePolicy.Minimum,
-                                        QSizePolicy.Expanding)
-        main_layout.addItem(self.left_spacer2)
-        main_layout.addWidget(self.verti_split)
-        self.right_spacer1 = QSpacerItem(10, 20, QSizePolicy.Minimum,
-                                         QSizePolicy.Expanding)
-        main_layout.addItem(self.right_spacer1)
+        verti_split = QFrame(self)
+        verti_split.setFrameShape(QFrame.VLine)
+        verti_split.setFrameShadow(QFrame.Sunken)
+        main_layout.addItem(
+            QSpacerItem(10, 20, QSizePolicy.Minimum, QSizePolicy.Expanding))
+        main_layout.addWidget(verti_split)
+        main_layout.addItem(
+            QSpacerItem(10, 20, QSizePolicy.Minimum, QSizePolicy.Expanding))
         main_layout.addLayout(right_layout)
-        self.right_spacer2 = QSpacerItem(10, 20, QSizePolicy.Minimum,
-                                         QSizePolicy.Expanding)
-        main_layout.addItem(self.right_spacer2)
+        main_layout.addItem(
+            QSpacerItem(10, 20, QSizePolicy.Minimum, QSizePolicy.Expanding))
 
         # Set the window layout to the main layout
-        # self.setLayout(self.main_layout)
-
-        self.button = QPushButton('click me')
+        self.setLayout(main_layout)
 
     def set_len_spinbox(self):
         self.len_spinbox.setValue(self.len_slider.value())
