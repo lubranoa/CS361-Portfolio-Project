@@ -139,28 +139,31 @@ class PasswordGenUI(QWidget):
     # Left Layout of Application
     #
     # Will contain the password generation options and button followed by the
-    # passphrase generation options and button.
+    # passphrase generation options and button. Sliders and spin boxes in both
+    # sections will change simultaneously.
     # ------------------------------------------------------------------------=
 
         # Init right layout of main layout
         right_layout = QVBoxLayout(self)
 
         # Add widgets to the password output box of the application
-        self.top_right_box = QVBoxLayout(self)
-        self.top_right_spacer = QSpacerItem(10, 20, QSizePolicy.Minimum,
-                                            QSizePolicy.Expanding)
-        self.top_right_box.addItem(self.top_right_spacer)
-        self.top_right_box.addWidget(QLabel('<h3>Password Output:</h3>', self))
-        self.top_right_box.addItem(self.top_right_spacer)
+        top_right_box = QVBoxLayout(self)
+        top_right_spacer = QSpacerItem(10, 20, QSizePolicy.Minimum,
+                                       QSizePolicy.Expanding)
+        top_right_box.addItem(top_right_spacer)
+        top_right_box.addWidget(QLabel('<h3>Password Output:</h3>', self))
+        top_right_box.addItem(top_right_spacer)
 
-        self.top_right_box.addWidget(QLineEdit(self))
-        self.top_right_box.addItem(self.top_right_spacer)
+        self.output_line = QLineEdit(self)
+        self.output_line.setReadOnly(True)
+        top_right_box.addWidget(self.output_line)
+        top_right_box.addItem(top_right_spacer)
 
         self.copy_layout = QHBoxLayout(self)
         self.copy_layout.addWidget(QPushButton('Copy', self))
         self.copy_layout.addWidget(QPushButton('Clear', self))
-        self.top_right_box.addLayout(self.copy_layout)
-        self.top_right_box.addItem(self.top_right_spacer)
+        top_right_box.addLayout(self.copy_layout)
+        top_right_box.addItem(top_right_spacer)
 
         # Add widgets to the strength tester box of the application
         self.bottom_right_box = QVBoxLayout(self)
@@ -195,7 +198,7 @@ class PasswordGenUI(QWidget):
 
         # Add the two inner right boxes to the right layout of the main layout
         # and separated by a horizontal line
-        right_layout.addLayout(self.top_right_box)
+        right_layout.addLayout(top_right_box)
         self.horiz_split = QFrame(self)
         self.horiz_split.setFrameShape(QFrame.HLine)
         self.horiz_split.setFrameShadow(QFrame.Sunken)
@@ -252,6 +255,7 @@ class PasswordGenUI(QWidget):
                 if curr_chbx.isChecked():
                     pword_params[i] = 1
         print('Password parameters:', pword_params)
+        self.output_line.setText('h5fip2gt')
 
     def generate_pphrase(self):
 
@@ -263,6 +267,7 @@ class PasswordGenUI(QWidget):
             pphrase_params[2] = 1
 
         print('Passphrase Parameters:', pphrase_params)
+        self.output_line.setText('words#7are#fun')
 
 
 if __name__ == '__main__':
