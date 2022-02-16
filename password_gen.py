@@ -2,7 +2,10 @@
 # Author: Alexander Lubrano
 # Course: CS 361 - Software Engineering I
 # Last Modified: 02/16/2022
-# Description:
+# Description: This microservice generates a password for the Password
+#     Generator app's GUI by receiving a list of parameters, generating a
+#     password that adheres to those parameters, and sending the password back
+#     to the GUI.
 # -----------------------------------------------------------------------------
 
 import random
@@ -15,7 +18,7 @@ def generate_password(parameters):
     password = ''
 
     if parameters[1] == 1:
-        desired_chars = desired_chars+string.ascii_lowercase
+        desired_chars = desired_chars + string.ascii_lowercase
     if parameters[2] == 1:
         desired_chars = desired_chars + string.ascii_uppercase
     if parameters[3] == 1:
@@ -42,12 +45,7 @@ def generate_password(parameters):
     return password
 
 
-def nothing():
-    return 'nothing'
-
-
 if __name__ == '__main__':
     pword_params = [20, 1, 1, 1, 1, 1, 1]
     pword = generate_password(pword_params)
     print(pword)
-
