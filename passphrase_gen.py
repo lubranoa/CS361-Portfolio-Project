@@ -2,10 +2,10 @@
 # Author: Alexander Lubrano
 # Course: CS 361 - Software Engineering I
 # Last Modified: 02/16/2022
-# Description: This microservice generates a password for the Password
+# Description: This microservice generates a passphrase for the Password
 #     Generator app's GUI by receiving a list of parameters, generating a
-#     password that adheres to those parameters, and sending the password back
-#     to the GUI.
+#     passphrase that adheres to those parameters, and sending the passphrase
+#     back to the GUI.
 # -----------------------------------------------------------------------------
 
 import random
