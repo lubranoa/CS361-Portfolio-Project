@@ -27,6 +27,7 @@ def generate_password(parameters):
         for char in remove_chars:
             desired_chars = desired_chars.replace(char, '')
 
+    desired_chars = random.sample(desired_chars, k=len(desired_chars))
     print(desired_chars)
 
     while len(password) < parameters[0]:
