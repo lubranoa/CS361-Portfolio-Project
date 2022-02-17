@@ -1,7 +1,7 @@
 # -----------------------------------------------------------------------------
 # Author: Alexander Lubrano
 # Course: CS 361 - Software Engineering I
-# Last Modified: 02/16/2022
+# Last Modified: 02/17/2022
 # Description: This microservice generates a password for the Password
 #     Generator app's GUI by receiving a list of parameters, generating a
 #     password that adheres to those parameters, and sending the password back
@@ -11,8 +11,29 @@
 import random
 import string
 
+# TODO: Connect to GUI file using subprocess calls or Python slots
+
 
 def generate_password(parameters):
+    """
+    Generates a password consisting of a specified number of characters, that
+    will adhere to one or more of the following:
+        - includes lowercase letters
+        - includes digits
+        - includes uppercase letters
+        - includes a short list of special characters
+        - excludes similar characters that could be mistaken for each other
+        - excludes duplicate characters
+
+    Takes a Python dictionary with data from the GUI that tells the function
+    what customization to incorporate into the generated password
+
+    Returns a generated password that adheres to the specified criteria
+    """
+
+    # TODO: Change function to handle Python dictionaries instead of arrays
+    # TODO: Add functionality for minimum number of digits and minimum number
+    #       of special characters
 
     desired_chars = ''
     password = ''
