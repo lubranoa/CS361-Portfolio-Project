@@ -1,7 +1,7 @@
 # -----------------------------------------------------------------------------
 # Author: Alexander Lubrano
 # Course: CS 361
-# Last Modified: 02/10/2022
+# Last Modified: 02/17/2022
 # Description:
 # -----------------------------------------------------------------------------
 
@@ -13,13 +13,13 @@ from PySide6.QtWidgets import (QApplication, QWidget, QFrame, QLabel,
                                QSpacerItem, QSizePolicy, QButtonGroup)
 from PySide6.QtCore import Qt
 
+# TODO: Improve overall layout, spacing, and size of widgets
 
 class PasswordGenUI(QWidget):
 
     def __init__(self):
         super().__init__()
 
-        # self.setGeometry(400, 400, 700, 650)
         self.setWindowTitle('Password Generator and Tester')
 
         main_layout = QHBoxLayout(self)
@@ -41,6 +41,8 @@ class PasswordGenUI(QWidget):
         # and slider with appropriate min and max labels
         length_layout = QHBoxLayout(self)
         length_layout.addWidget(QLabel('Length', self))
+        # TODO: Change max to 30 characters
+        # TODO: Set initial value to 12
         self.len_spinbox = QSpinBox(self)
         self.len_spinbox.setRange(8, 20)
         length_layout.addWidget(self.len_spinbox)
@@ -58,6 +60,8 @@ class PasswordGenUI(QWidget):
         left_layout.addLayout(length_layout)
 
         # Create 6 checkboxes and a label and add each to the left layout
+        # TODO: Add minimum special characters to advanced options
+        # TODO: Add minimum digits to advanced options
         lowercase_chbx = QCheckBox('Include a - z', self)
         left_layout.addWidget(lowercase_chbx)
         uppercase_chbx = QCheckBox('Include A - Z', self)
@@ -101,8 +105,10 @@ class PasswordGenUI(QWidget):
 
         # Create a layout for choosing passphrase length using a synced spin
         # box and slider with appropriate min and max labels
+        # TODO: Add capitalize words option to passphrase generation
         num_words_layout = QHBoxLayout(self)
         num_words_layout.addWidget(QLabel('Number of Words', self))
+        # TODO: Set initial value to 3 words
         self.pphrase_spinbox = QSpinBox(self)
         self.pphrase_spinbox.setRange(2, 8)
         num_words_layout.addWidget(self.pphrase_spinbox)
@@ -255,6 +261,16 @@ class PasswordGenUI(QWidget):
         # Set the window layout to the main layout
         self.setLayout(main_layout)
 
+    # TODO: Add "are you sure you want to quit?" popup
+
+    # TODO: Add "are you sure you want to clear the output?" popup
+
+    # TODO: Add "are you sure you want to clear the strength output?" popup
+
+    # TODO: Add tooltips to customization options
+
+    # TODO: Add help or info to menu bar
+
     def set_len_spinbox(self):
         """
         When signaled by a change in the password length slider's value,
@@ -291,6 +307,7 @@ class PasswordGenUI(QWidget):
         Displays it to the user in the designated output box
         """
 
+        # TODO: Change array to Python dictionary with descriptive keys
         pword_params = [0 for x in range(7)]
 
         for i in range(len(pword_params)):
@@ -312,6 +329,7 @@ class PasswordGenUI(QWidget):
         Displays it to the user in the designated output box
         """
 
+        # TODO: Change array to Python dictionary with descriptive keys
         pphrase_params = [0 for x in range(3)]
 
         pphrase_params[0] = self.pphrase_slider.value()
@@ -335,6 +353,7 @@ class PasswordGenUI(QWidget):
         Copy-pastes the generated output into the strength tester input then
         calls the test strength method to calculate the output
         """
+        print('Testing from password output')
         self.strength_input.setText(self.output_line.text())
         self.test_strength()
 
@@ -364,6 +383,7 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
 
     pw_gen = PasswordGenUI()
+    # TODO: Increase size of window
     pw_gen.resize(750, 700)
     pw_gen.show()
 
