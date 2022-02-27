@@ -14,6 +14,14 @@ import random
 random.seed()
 
 
+def get_words(num):
+    """Does This"""
+    words = []
+
+    words = ['aardvark', 'beaver', 'cheetah']
+    return words
+
+
 def generate_passphrase(params):
     """
     Generates a passphrase consisting of a number of words and a selected
@@ -26,15 +34,12 @@ def generate_passphrase(params):
     Returns a generated passphrase that adheres to the specified criteria
     """
 
-    # TODO: Change function to handle Python dictionaries instead of lists
     # TODO: Get specified number of words from random word generator
-    # TODO: Add functionality to capitalize the first letter of each word
 
     # 'words', 'sep_char', 'incl_num', 'cap_words'
     passphrase = ''
-    # placeholder word array for testing
-    words = ['aardvark', 'beaver', 'cheetah']
-
+    # Get a list of words then shuffle them
+    words = get_words(params['words'])
     random.shuffle(words)
 
     if params['incl_num']:

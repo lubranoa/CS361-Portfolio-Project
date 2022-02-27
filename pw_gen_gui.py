@@ -44,8 +44,6 @@ class PasswordGenUI(QWidget):
         # and slider with appropriate min and max labels
         length_layout = QHBoxLayout(self)
         length_layout.addWidget(QLabel('Length', self))
-        # TODO: Changed max to 30 characters
-        # TODO: Set initial value to 12
         self.len_spinbox = QSpinBox(self)
         self.len_spinbox.setRange(8, 30)
         length_layout.addWidget(self.len_spinbox)
@@ -66,8 +64,6 @@ class PasswordGenUI(QWidget):
         left_layout.addLayout(length_layout)
 
         # Create 6 checkboxes and a label and add each to the left layout
-        # TODO: Add minimum special characters to advanced options
-        # TODO: Add minimum digits to advanced options
         self.lowercase_chbx = QCheckBox('Include a - z', self)
         left_layout.addWidget(self.lowercase_chbx)
         self.uppercase_chbx = QCheckBox('Include A - Z', self)
@@ -125,10 +121,8 @@ class PasswordGenUI(QWidget):
 
         # Create a layout for choosing passphrase length using a synced spin
         # box and slider with appropriate min and max labels
-        # TODO: Add capitalize words option to passphrase generation
         num_words_layout = QHBoxLayout(self)
         num_words_layout.addWidget(QLabel('Number of Words', self))
-        # TODO: Set initial value to 3 words
         self.pphrase_spinbox = QSpinBox(self)
         self.pphrase_spinbox.setRange(2, 8)
         num_words_layout.addWidget(self.pphrase_spinbox)
@@ -369,7 +363,6 @@ class PasswordGenUI(QWidget):
         Displays it to the user in the designated output box
         """
 
-        # TODO: Change array to Python dictionary with descriptive keys
         params = ['words', 'sep_char', 'incl_num', 'cap_words']
         pphrase_params = {params[0]: self.pphrase_slider.value(),
                           params[1]: self.char_input.text(),
