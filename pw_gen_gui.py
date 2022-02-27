@@ -1,8 +1,9 @@
 # -----------------------------------------------------------------------------
 # Author: Alexander Lubrano
 # Course: CS 361
-# Last Modified: 02/17/2022
+# Last Modified: 02/26/2022
 # Description:
+#
 # -----------------------------------------------------------------------------
 
 
@@ -10,7 +11,7 @@ import sys
 from PySide6.QtWidgets import (QApplication, QWidget, QFrame, QLabel,
                                QHBoxLayout, QVBoxLayout, QCheckBox,
                                QPushButton, QLineEdit, QSlider, QSpinBox,
-                               QSpacerItem, QSizePolicy, QButtonGroup)
+                               QSpacerItem, QSizePolicy)
 from PySide6.QtCore import Qt
 from password_gen import generate_password
 
@@ -43,8 +44,7 @@ class PasswordGenUI(QWidget):
         # and slider with appropriate min and max labels
         length_layout = QHBoxLayout(self)
         length_layout.addWidget(QLabel('Length', self))
-        # TODO: Changed max to 30 characters
-        # TODO: Set initial value to 12
+
         self.len_spinbox = QSpinBox(self)
         self.len_spinbox.setRange(8, 30)
         length_layout.addWidget(self.len_spinbox)
@@ -64,24 +64,31 @@ class PasswordGenUI(QWidget):
         # Add the password length layout to the left layout
         left_layout.addLayout(length_layout)
 
-        # Create 6 checkboxes and a label and add each to the left layout
-        # TODO: Add minimum special characters to advanced options
-        # TODO: Add minimum digits to advanced options
+        # Create 6 checkboxes, two spin boxes, and a label and add each to the
+        # left layout
         self.lowercase_chbx = QCheckBox('Include a - z', self)
+        self.lowercase_chbx.setChecked(True)
         left_layout.addWidget(self.lowercase_chbx)
+
         self.uppercase_chbx = QCheckBox('Include A - Z', self)
         left_layout.addWidget(self.uppercase_chbx)
+
         self.digit_chbx = QCheckBox('Include 0 - 9', self)
+        self.digit_chbx.setChecked(True)
         left_layout.addWidget(self.digit_chbx)
+
         self.special_chbx = QCheckBox('Include !@#$%^&&*', self)
         left_layout.addWidget(self.special_chbx)
-        left_layout.addWidget(QLabel('Advanced Options:', self))
-        ambig_chbx = QCheckBox(
-            'Exclude ambiguous characters i, l, I, L, 0, O, etc.', self)
-        left_layout.addWidget(ambig_chbx)
-        dup_chbx = QCheckBox('No duplicate characters', self)
-        left_layout.addWidget(dup_chbx)
 
+        left_layout.addWidget(QLabel('Advanced Options:', self))
+        self.ambig_chbx = QCheckBox(
+            'Exclude ambiguous characters l, I, 1, O, 0', self)
+        left_layout.addWidget(self.ambig_chbx)
+
+        self.dup_chbx = QCheckBox('No duplicate characters', self)
+        left_layout.addWidget(self.dup_chbx)
+
+        # Create the minimum number chars layout with a spinbox and label
         min_num_layout = QHBoxLayout(self)
         min_num_layout.addWidget(QLabel('Minimum Numbers', self))
         self.min_num_spin = QSpinBox(self)
@@ -89,6 +96,7 @@ class PasswordGenUI(QWidget):
         min_num_layout.addWidget(self.min_num_spin)
         left_layout.addLayout(min_num_layout)
 
+        # Create the minimum special chars layout with a spinbox and label
         min_spec_layout = QHBoxLayout(self)
         min_spec_layout.addWidget(QLabel('Minimum Special', self))
         self.min_spec_spin = QSpinBox(self)
@@ -96,22 +104,7 @@ class PasswordGenUI(QWidget):
         min_spec_layout.addWidget(self.min_spec_spin)
         left_layout.addLayout(min_spec_layout)
 
-        # Create a button group and add all 6 checkboxes to it
-        self.pword_chbxs = QButtonGroup(self)
-        self.pword_chbxs.addButton(self.lowercase_chbx, 1)
-        self.pword_chbxs.addButton(self.uppercase_chbx, 2)
-        self.pword_chbxs.addButton(self.digit_chbx, 3)
-        self.pword_chbxs.addButton(self.special_chbx, 4)
-        self.pword_chbxs.addButton(ambig_chbx, 5)
-        self.pword_chbxs.addButton(dup_chbx, 6)
-
-        # Set the checkbox group to non-exclusive so that multiple boxes can
-        # be checked at one time
-        self.pword_chbxs.setExclusive(False)
-
         # Set lowercase and digit boxes to be checked by default
-        self.lowercase_chbx.setChecked(True)
-        self.digit_chbx.setChecked(True)
 
         # Create a "generate password" button, add it to the left layout, and
         # connect its "clicked" signal to the generate_pword slot
@@ -323,7 +316,11 @@ class PasswordGenUI(QWidget):
 
     def update_len_from_min_nums(self):
         """Does this"""
-        pass
+        min_num_amt = self.min_num_spin.value()
+        min_spec_amt = self.min_spec_spin.value()
+
+        #if self.lowercase_chbx.isChecked() and self.uppercase_chbx.isChecked() and:
+
 
     def update_len_from_min_spec(self):
         """Does this"""
@@ -331,33 +328,23 @@ class PasswordGenUI(QWidget):
 
     def generate_pword(self):
         """
-        Will pass collected parameters to a microservice that will generate a
-        password and return it to this function
+        A slot
 
         Displays it to the user in the designated output box
         """
 
-        # TODO: Change array to Python dictionary with descriptive keys
-        params = ['len', 'low_case', 'upp_case', 'digits', 'special',
-                  'no_ambig', 'no_dup', 'min_dig', 'min_spec']
-        pword_params = {}
-
-        for i in range(len(params)):
-            if i == 0:
-                pword_params[params[i]] = self.len_slider.value()
-            elif i < 7:
-                curr_chbx = self.pword_chbxs.button(i)
-                if curr_chbx.isChecked():
-                    pword_params[params[i]] = True
-                else:
-                    pword_params[params[i]] = False
-            elif i == 7:
-                pword_params[params[i]] = self.min_num_spin.value()
-            else:
-                pword_params[params[i]] = self.min_spec_spin.value()
-
-        print('Generating a password with these parameters:', pword_params)
-        new_password = generate_password(pword_params)
+        print('Generating a password')
+        new_password = generate_password(
+            self.len_slider.value(),
+            self.lowercase_chbx.isChecked(),
+            self.digit_chbx.isChecked(),
+            self.uppercase_chbx.isChecked(),
+            self.special_chbx.isChecked(),
+            self.ambig_chbx.isChecked(),
+            self.dup_chbx.isChecked(),
+            self.min_num_spin.value(),
+            self.min_spec_spin.value()
+        )
         self.output_line.setText(new_password)
 
     def generate_pphrase(self):
