@@ -1,8 +1,9 @@
 # -----------------------------------------------------------------------------
 # Author: Alexander Lubrano
-# Course: CS 361
-# Last Modified: 02/17/2022
+# Course: CS 361 - Software Engineering I
+# Last Modified: 02/27/2022
 # Description:
+#
 # -----------------------------------------------------------------------------
 
 
