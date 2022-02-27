@@ -13,6 +13,7 @@ from PySide6.QtWidgets import (QApplication, QWidget, QFrame, QLabel,
                                QSpacerItem, QSizePolicy, QButtonGroup)
 from PySide6.QtCore import Qt
 from password_gen import generate_password
+from passphrase_gen import generate_passphrase
 
 # TODO: Improve overall layout, spacing, and size of widgets
 
@@ -157,6 +158,9 @@ class PasswordGenUI(QWidget):
         # Create a checkbox that allows the user to include a number
         self.include_a_num = QCheckBox('Include a number', self)
         left_layout.addWidget(self.include_a_num)
+        # Create a checkbox that allows the user to capitalize the words
+        self.capital_words = QCheckBox('Capitalized words', self)
+        left_layout.addWidget(self.capital_words)
 
         # Create a "generate passphrase" button, add it to the left layout, and
         # connect its "clicked" signal to the generate_pphrase slot
@@ -337,7 +341,6 @@ class PasswordGenUI(QWidget):
         Displays it to the user in the designated output box
         """
 
-        # TODO: Change array to Python dictionary with descriptive keys
         params = ['len', 'low_case', 'upp_case', 'digits', 'special',
                   'no_ambig', 'no_dup', 'min_dig', 'min_spec']
         pword_params = {}
@@ -347,16 +350,14 @@ class PasswordGenUI(QWidget):
                 pword_params[params[i]] = self.len_slider.value()
             elif i < 7:
                 curr_chbx = self.pword_chbxs.button(i)
-                if curr_chbx.isChecked():
-                    pword_params[params[i]] = True
-                else:
-                    pword_params[params[i]] = False
+                pword_params[params[i]] = curr_chbx.isChecked()
             elif i == 7:
                 pword_params[params[i]] = self.min_num_spin.value()
             else:
                 pword_params[params[i]] = self.min_spec_spin.value()
 
-        print('Generating a password with these parameters:', pword_params)
+        print('Generating a password with these parameters:')
+        [print(x + ':', pword_params[x], end='   ') for x in pword_params]
         new_password = generate_password(pword_params)
         self.output_line.setText(new_password)
 
@@ -369,14 +370,14 @@ class PasswordGenUI(QWidget):
         """
 
         # TODO: Change array to Python dictionary with descriptive keys
-        pphrase_params = [0 for x in range(3)]
+        params = ['words', 'sep_char', 'incl_num', 'cap_words']
+        pphrase_params = {params[0]: self.pphrase_slider.value(),
+                          params[1]: self.char_input.text(),
+                          params[2]: self.include_a_num.isChecked(),
+                          params[3]: self.capital_words.isChecked()}
 
-        pphrase_params[0] = self.pphrase_slider.value()
-        pphrase_params[1] = self.char_input.text()
-        if self.include_a_num.isChecked():
-            pphrase_params[2] = 1
-
-        print('Generating a passphrase with these parameters:', pphrase_params)
+        print('Generating a passphrase with these parameters:')
+        [print(x + ':', pphrase_params[x], end='   ') for x in pphrase_params]
         self.output_line.setText('words#7are#fun')
 
     def copy_output(self):

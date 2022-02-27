@@ -6,15 +6,15 @@
 #     Generator app's GUI by receiving a list of parameters, generating a
 #     passphrase that adheres to those parameters, and sending the passphrase
 #     back to the GUI.
+#
 # -----------------------------------------------------------------------------
 
-# TODO: Connect to GUI using subprocess calls or Python slots
 # TODO: Connect to random word generator microservice using Python slots
 import random
 random.seed()
 
 
-def generate_passphrase(parameters):
+def generate_passphrase(params):
     """
     Generates a passphrase consisting of a number of words and a selected
     separator character, and if selected, a number at the end of one word
@@ -30,15 +30,21 @@ def generate_passphrase(parameters):
     # TODO: Get specified number of words from random word generator
     # TODO: Add functionality to capitalize the first letter of each word
 
+    # 'words', 'sep_char', 'incl_num', 'cap_words'
     passphrase = ''
     # placeholder word array for testing
     words = ['aardvark', 'beaver', 'cheetah']
 
     random.shuffle(words)
 
-    if parameters[2] == 1:
+    if params['incl_num']:
         word_index = random.randrange(0, len(words))
         words[word_index] = words[word_index] + str(random.randrange(0, 9))
+
+    if params['cap_words']:
+        for i in range(len(words)):
+            capitalized = words[i].capitalize()
+            words[i] = capitalized
 
     print(words)
 
@@ -46,12 +52,15 @@ def generate_passphrase(parameters):
         if i < 1:
             passphrase = words[i]
         else:
-            passphrase = passphrase + parameters[1] + words[i]
+            passphrase = passphrase + params['sep_char'] + words[i]
 
     return passphrase
 
 
 if __name__ == '__main__':
 
-    phrase_params = [3, '@', 1]
+    phrase_params = {'words': 3,
+                     'sep_char': '@',
+                     'incl_num': True,
+                     'cap_words': True}
     print(generate_passphrase(phrase_params))
