@@ -51,8 +51,6 @@ def generate_passphrase(params):
             capitalized = words[i].capitalize()
             words[i] = capitalized
 
-    print(words)
-
     for i in range(len(words)):
         if i < 1:
             passphrase = words[i]

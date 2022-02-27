@@ -353,8 +353,8 @@ class PasswordGenUI(QWidget):
 
         print('Generating a password with these parameters:')
         [print(x + ':', pword_params[x], end='   ') for x in pword_params]
-        new_password = generate_password(pword_params)
-        self.output_line.setText(new_password)
+        print('\n')
+        self.output_line.setText(generate_password(pword_params))
 
     def generate_pphrase(self):
         """
@@ -372,7 +372,8 @@ class PasswordGenUI(QWidget):
 
         print('Generating a passphrase with these parameters:')
         [print(x + ':', pphrase_params[x], end='   ') for x in pphrase_params]
-        self.output_line.setText('words#7are#fun')
+        print('\n')
+        self.output_line.setText(generate_passphrase(pphrase_params))
 
     def copy_output(self):
         """Copies the generated output to the clipboard"""
