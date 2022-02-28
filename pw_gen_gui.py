@@ -17,7 +17,7 @@ from PySide6.QtCore import Qt
 from password_gen import generate_password
 from passphrase_gen import generate_passphrase
 from get_words_client import close_word_gen_server_conn
-from get_strength_client import get_strength, close_strength_client
+from get_strength_client import get_strength
 
 # TODO: Improve overall layout, spacing, and size of widgets
 
@@ -432,7 +432,6 @@ class PasswordGenUI(QWidget):
 
         if reply == QMessageBox.Close:
             close_word_gen_server_conn()
-            close_strength_client()
             event.accept()
         else:
             event.ignore()
