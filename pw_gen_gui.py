@@ -17,6 +17,7 @@ from PySide6.QtCore import Qt
 from password_gen import generate_password
 from passphrase_gen import generate_passphrase
 from get_words_client import close_word_gen_server_conn
+from get_strength_client import get_strength, close_strength_client
 
 # TODO: Improve overall layout, spacing, and size of widgets
 
@@ -405,8 +406,9 @@ class PasswordGenUI(QWidget):
         strength data
         """
         print('Testing this password:', self.strength_input.text())
-        self.strength_output.setText('1 - Too weak')
-        self.t2crack_output.setText('6 hours')
+        result = get_strength(self.strength_input.text())
+        self.strength_output.setText(result[0])
+        self.t2crack_output.setText(result[1])
 
     def clear_strength(self):
         """Clears all text fields in the strength tester section"""
@@ -430,6 +432,7 @@ class PasswordGenUI(QWidget):
 
         if reply == QMessageBox.Close:
             close_word_gen_server_conn()
+            close_strength_client()
             event.accept()
         else:
             event.ignore()
