@@ -9,17 +9,9 @@
 #
 # -----------------------------------------------------------------------------
 
-# TODO: Connect to random word generator microservice using Python slots
+from get_words_client import get_words
 import random
 random.seed()
-
-
-def get_words(num):
-    """Does This"""
-    words = []
-
-    words = ['aardvark', 'beaver', 'cheetah']
-    return words
 
 
 def generate_passphrase(params):
@@ -34,12 +26,11 @@ def generate_passphrase(params):
     Returns a generated passphrase that adheres to the specified criteria
     """
 
-    # TODO: Get specified number of words from random word generator
-
     # 'words', 'sep_char', 'incl_num', 'cap_words'
     passphrase = ''
     # Get a list of words then shuffle them
     words = get_words(params['words'])
+    # words = ['aardvark', 'beaver', 'cheetah']
     random.shuffle(words)
 
     if params['incl_num']:

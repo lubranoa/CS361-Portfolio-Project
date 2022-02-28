@@ -11,10 +11,12 @@ import sys
 from PySide6.QtWidgets import (QApplication, QWidget, QFrame, QLabel,
                                QHBoxLayout, QVBoxLayout, QCheckBox,
                                QPushButton, QLineEdit, QSlider, QSpinBox,
-                               QSpacerItem, QSizePolicy, QButtonGroup)
+                               QSpacerItem, QSizePolicy, QButtonGroup,
+                               QMessageBox)
 from PySide6.QtCore import Qt
 from password_gen import generate_password
 from passphrase_gen import generate_passphrase
+from get_words_client import close_word_gen_server_conn
 
 # TODO: Improve overall layout, spacing, and size of widgets
 
@@ -413,6 +415,25 @@ class PasswordGenUI(QWidget):
         self.strength_output.clear()
         self.t2crack_output.clear()
 
+    def closeEvent(self, event):
+        """
+        Generate 'Are you sure you want to quit?' dialog box on user clicking
+        'X' button in title bar.
+
+        Message box includes a question, "close" button, and "cancel" button.
+
+        """
+        reply = QMessageBox.question(self,
+                                     "Message",
+                                     "Are you sure you want to quit?",
+                                     QMessageBox.Close | QMessageBox.Cancel)
+
+        if reply == QMessageBox.Close:
+            close_word_gen_server_conn()
+            event.accept()
+        else:
+            event.ignore()
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
@@ -423,3 +444,4 @@ if __name__ == '__main__':
     pw_gen.show()
 
     sys.exit(app.exec())
+
