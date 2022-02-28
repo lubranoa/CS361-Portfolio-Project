@@ -19,8 +19,6 @@ from passphrase_gen import generate_passphrase
 from get_words_client import close_word_gen_server_conn
 from get_strength_client import get_strength
 
-# TODO: Improve overall layout, spacing, and size of widgets
-
 
 class PasswordGenUI(QWidget):
 
@@ -47,17 +45,22 @@ class PasswordGenUI(QWidget):
         # Create a layout for choosing password length using a synced spin box
         # and slider with appropriate min and max labels
         length_layout = QHBoxLayout(self)
+        length_layout.addSpacing(15)
         length_layout.addWidget(QLabel('Length', self))
+        length_layout.addSpacing(5)
         self.len_spinbox = QSpinBox(self)
         self.len_spinbox.setRange(8, 30)
         length_layout.addWidget(self.len_spinbox)
-        length_layout.addWidget(QLabel('8', self))
+        length_layout.addSpacing(10)
+        length_layout.addWidget(QLabel('<h4>8</h4>', self))
+        length_layout.addSpacing(5)
         self.len_slider = QSlider(Qt.Horizontal, self)
         self.len_slider.setRange(8, 30)
         self.len_slider.setTickInterval(2)
         self.len_slider.setTickPosition(self.len_slider.TicksBelow)
         length_layout.addWidget(self.len_slider)
-        length_layout.addWidget(QLabel('30', self))
+        length_layout.addSpacing(5)
+        length_layout.addWidget(QLabel('<h4>30</h4>', self))
         # Connect the value changed signals to slots that synchronize the spin
         # box and slider values
         self.len_spinbox.valueChanged.connect(self.set_len_slider)
@@ -68,34 +71,51 @@ class PasswordGenUI(QWidget):
         left_layout.addLayout(length_layout)
 
         # Create 6 checkboxes and a label and add each to the left layout
+        chbox_horiz_1 = QHBoxLayout(self)
+        chbox_vert_1 = QVBoxLayout(self)
         self.lowercase_chbx = QCheckBox('Include a - z', self)
-        left_layout.addWidget(self.lowercase_chbx)
+        chbox_vert_1.addWidget(self.lowercase_chbx)
         self.uppercase_chbx = QCheckBox('Include A - Z', self)
-        left_layout.addWidget(self.uppercase_chbx)
+        chbox_vert_1.addWidget(self.uppercase_chbx)
         self.digit_chbx = QCheckBox('Include 0 - 9', self)
-        left_layout.addWidget(self.digit_chbx)
+        chbox_vert_1.addWidget(self.digit_chbx)
         self.special_chbx = QCheckBox('Include !@#$%^&&*', self)
-        left_layout.addWidget(self.special_chbx)
-        left_layout.addWidget(QLabel('Advanced Options:', self))
+        chbox_vert_1.addWidget(self.special_chbx)
+        chbox_horiz_1.addSpacing(15)
+        chbox_horiz_1.addLayout(chbox_vert_1)
+        left_layout.addLayout(chbox_horiz_1)
+
+        left_layout.addWidget(QLabel('<h4>Advanced Options:</h4>', self))
+
+        chbox_horiz_2 = QHBoxLayout(self)
+        chbox_vert_2 = QVBoxLayout(self)
         ambig_chbx = QCheckBox(
             'Exclude ambiguous characters i, l, I, L, 0, O, etc.', self)
-        left_layout.addWidget(ambig_chbx)
+        chbox_vert_2.addWidget(ambig_chbx)
         dup_chbx = QCheckBox('No duplicate characters', self)
-        left_layout.addWidget(dup_chbx)
+        chbox_vert_2.addWidget(dup_chbx)
 
         min_num_layout = QHBoxLayout(self)
         min_num_layout.addWidget(QLabel('Minimum Numbers', self))
+        min_num_layout.addSpacing(15)
         self.min_num_spin = QSpinBox(self)
         self.min_num_spin.setRange(0, 9)
         min_num_layout.addWidget(self.min_num_spin)
-        left_layout.addLayout(min_num_layout)
+        min_num_layout.addSpacing(150)
+        chbox_vert_2.addLayout(min_num_layout)
 
         min_spec_layout = QHBoxLayout(self)
         min_spec_layout.addWidget(QLabel('Minimum Special', self))
+        min_spec_layout.addSpacing(27)
         self.min_spec_spin = QSpinBox(self)
         self.min_spec_spin.setRange(0, 9)
         min_spec_layout.addWidget(self.min_spec_spin)
-        left_layout.addLayout(min_spec_layout)
+        min_spec_layout.addSpacing(150)
+        chbox_vert_2.addLayout(min_spec_layout)
+
+        chbox_horiz_2.addSpacing(15)
+        chbox_horiz_2.addLayout(chbox_vert_2)
+        left_layout.addLayout(chbox_horiz_2)
 
         # Create a button group and add all 6 checkboxes to it
         self.pword_chbxs = QButtonGroup(self)
@@ -114,11 +134,20 @@ class PasswordGenUI(QWidget):
         self.lowercase_chbx.setChecked(True)
         self.digit_chbx.setChecked(True)
 
+        left_layout.addSpacing(25)
+
         # Create a "generate password" button, add it to the left layout, and
         # connect its "clicked" signal to the generate_pword slot
+        pword_gen_layout = QHBoxLayout(self)
+        pword_gen_layout.addSpacing(100)
         pword_gen_btn = QPushButton('Generate Password', self)
-        left_layout.addWidget(pword_gen_btn)
+        pword_gen_layout.addWidget(pword_gen_btn)
+        pword_gen_btn.setStyleSheet('background-color: light blue')
+        pword_gen_layout.addSpacing(100)
         pword_gen_btn.clicked.connect(self.generate_pword)
+
+        left_layout.addLayout(pword_gen_layout)
+        left_layout.addSpacing(30)
 
         # Add a new <h3> header for the passphrase section
         left_layout.addWidget(QLabel('<h3>Generate Passphrase:</h3>', self))
@@ -126,14 +155,19 @@ class PasswordGenUI(QWidget):
         # Create a layout for choosing passphrase length using a synced spin
         # box and slider with appropriate min and max labels
         num_words_layout = QHBoxLayout(self)
+        num_words_layout.addSpacing(15)
         num_words_layout.addWidget(QLabel('Number of Words', self))
+        num_words_layout.addSpacing(5)
         self.pphrase_spinbox = QSpinBox(self)
         self.pphrase_spinbox.setRange(2, 8)
         num_words_layout.addWidget(self.pphrase_spinbox)
+        num_words_layout.addSpacing(10)
         num_words_layout.addWidget(QLabel('2', self))
+        num_words_layout.addSpacing(5)
         self.pphrase_slider = QSlider(Qt.Horizontal, self)
         self.pphrase_slider.setRange(2, 8)
         num_words_layout.addWidget(self.pphrase_slider)
+        num_words_layout.addSpacing(5)
         num_words_layout.addWidget(QLabel('8', self))
         left_layout.addLayout(num_words_layout)
         # Connect the value changed signals to slots that synchronize the spin
@@ -147,23 +181,40 @@ class PasswordGenUI(QWidget):
         # Create a layout for input of a separator character with a label and
         # an input line and add it to th left layout
         sep_char_layout = QHBoxLayout(self)
+        sep_char_layout.addSpacing(15)
         sep_char_layout.addWidget(QLabel('Separator Character:', self))
+        sep_char_layout.addSpacing(10)
         self.char_input = QLineEdit(self)
         self.char_input.setMaxLength(1)
+        self.char_input.setPlaceholderText('!@#$%^&* Recommended')
         sep_char_layout.addWidget(self.char_input)
+        sep_char_layout.addSpacing(45)
         left_layout.addLayout(sep_char_layout)
 
+        chbox_horiz_3 = QHBoxLayout(self)
+        chbox_vert_3 = QVBoxLayout(self)
         # Create a checkbox that allows the user to include a number
         self.include_a_num = QCheckBox('Include a number', self)
-        left_layout.addWidget(self.include_a_num)
+        chbox_vert_3.addWidget(self.include_a_num)
         # Create a checkbox that allows the user to capitalize the words
         self.capital_words = QCheckBox('Capitalized words', self)
-        left_layout.addWidget(self.capital_words)
+        chbox_vert_3.addWidget(self.capital_words)
+        chbox_horiz_3.addSpacing(15)
+        chbox_horiz_3.addLayout(chbox_vert_3)
+        left_layout.addLayout(chbox_horiz_3)
+        left_layout.addSpacing(25)
 
         # Create a "generate passphrase" button, add it to the left layout, and
         # connect its "clicked" signal to the generate_pphrase slot
+        pphrase_gen_layout = QHBoxLayout(self)
+        pphrase_gen_layout.addSpacing(100)
         self.pphrase_gen_btn = QPushButton('Generate Passphrase', self)
-        left_layout.addWidget(self.pphrase_gen_btn)
+        pphrase_gen_layout.addWidget(self.pphrase_gen_btn)
+        pphrase_gen_layout.addSpacing(100)
+        pword_gen_btn.clicked.connect(self.generate_pword)
+
+        left_layout.addLayout(pphrase_gen_layout)
+        left_layout.addSpacing(50)
         self.pphrase_gen_btn.clicked.connect(self.generate_pphrase)
 
     # -------------------------------------------------------------------------
@@ -439,9 +490,8 @@ class PasswordGenUI(QWidget):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-
+    # TODO: Set up a style sheet for nicer UI
     pw_gen = PasswordGenUI()
-    # TODO: Increase size of window
     pw_gen.resize(750, 700)
     pw_gen.show()
 
