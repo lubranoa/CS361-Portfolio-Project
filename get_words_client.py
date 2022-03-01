@@ -19,29 +19,36 @@ client.connect((HOST, PORT))
 
 
 def send(msg):
-    """Does This"""
+    """
+    Sends a digit string to the server and gets a response string of words
+    separated by commas, i.e.: "word,words,more,words"
+    """
     message = msg.encode(FORMAT)
     msg_length = len(message)
     send_length = str(msg_length).encode(FORMAT)
     send_length += b' ' * (MSG_SIZE - len(send_length))
     client.send(send_length)
     client.send(message)
-    response = client.recv(2048).decode(FORMAT)
+    response = client.recv(MSG_SIZE).decode(FORMAT)
     print('Server Response:', response)
     return response
 
 
 def get_words(num):
-    """Does this"""
+    """
+    Takes a number of words to get from the word generator and calls the send
+    function to send it to the socket server.
 
-    # Calls send message function to get a string of words separated by commas
+    When the word string is returned, splits the string at the commas.
+
+    Returns the list of words back to the calling script
+    """
     word_str = send(str(num))
 
     # If last character of word str is a comma, slice it off
     if word_str[-1] == ',':
         word_str = word_str[:-1]
 
-    # Splits word string at commas and puts separated strings in words list
     words = word_str.split(' ')
     print('word list:', words)
     return words
