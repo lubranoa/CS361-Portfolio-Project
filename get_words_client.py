@@ -36,7 +36,10 @@ def get_words(num):
 
     # Calls send message function to get a string of words separated by commas
     word_str = send(str(num))
-    word_str = word_str[:-1]
+
+    # If last character of word str is a comma, slice it off
+    if word_str[-1] == ',':
+        word_str = word_str[:-1]
 
     # Splits word string at commas and puts separated strings in words list
     words = word_str.split(' ')
