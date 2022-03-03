@@ -7,6 +7,8 @@ QPushButton {
     font: bold 12px;
     min-width: 69px;
     padding: 6px;
+    margin-left: 4px;
+    margin-right: 4px;
 }
 QPushButton:pressed {
     background-color: #99ceff;

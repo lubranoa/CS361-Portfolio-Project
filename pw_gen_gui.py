@@ -140,11 +140,11 @@ class PasswordGenUI(QWidget):
         # connect its "clicked" signal to the generate_pword slot
         pword_gen_layout = QHBoxLayout(self)
         pword_gen_layout.addSpacing(100)
-        pword_gen_btn = QPushButton('Generate Password', self)
-        pword_gen_layout.addWidget(pword_gen_btn)
-        pword_gen_btn.setStyleSheet('background-color: light blue')
+        self.pword_gen_btn = QPushButton('Generate Password', self)
+        pword_gen_layout.addWidget(self.pword_gen_btn)
+        self.pword_gen_btn.setStyleSheet('background-color: light blue')
         pword_gen_layout.addSpacing(100)
-        pword_gen_btn.clicked.connect(self.generate_pword)
+        self.pword_gen_btn.clicked.connect(self.generate_pword)
 
         left_layout.addLayout(pword_gen_layout)
         left_layout.addSpacing(30)
@@ -214,7 +214,7 @@ class PasswordGenUI(QWidget):
 
         left_layout.addLayout(pphrase_gen_layout)
         left_layout.addSpacing(25)
-        #self.pphrase_gen_btn.clicked.connect(self.generate_pphrase)
+        self.pphrase_gen_btn.clicked.connect(self.generate_pphrase)
 
     # -------------------------------------------------------------------------
     # Right Layout of Application
@@ -248,16 +248,12 @@ class PasswordGenUI(QWidget):
         # Create and add a button layout with 3 buttons, copy, calculate
         # strength, and clear buttons
         output_btn_layout = QHBoxLayout(self)
-        output_btn_layout.addSpacing(5)
         self.copy_btn = QPushButton('Copy', self)
         output_btn_layout.addWidget(self.copy_btn)
-        output_btn_layout.addSpacing(5)
         self.calc_output_btn = QPushButton('Calculate Strength')
         output_btn_layout.addWidget(self.calc_output_btn)
-        output_btn_layout.addSpacing(5)
         self.clear_btn = QPushButton('Clear', self)
         output_btn_layout.addWidget(self.clear_btn)
-        output_btn_layout.addSpacing(5)
         top_right_box.addLayout(output_btn_layout)
         top_right_box.addSpacing(25)
         top_right_box.addItem(right_spacer)
