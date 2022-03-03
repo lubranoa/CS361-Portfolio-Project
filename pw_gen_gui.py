@@ -15,9 +15,9 @@ from PySide6.QtWidgets import (QApplication, QWidget, QFrame, QLabel,
                                QMessageBox)
 from PySide6.QtCore import Qt
 from password_gen import generate_password
-from passphrase_gen import generate_passphrase
-from get_words_client import close_word_gen_server_conn
-from get_strength_client import get_strength
+# from passphrase_gen import generate_passphrase
+# from get_words_client import close_word_gen_server_conn
+# from get_strength_client import get_strength
 
 
 class PasswordGenUI(QWidget):
@@ -197,7 +197,7 @@ class PasswordGenUI(QWidget):
         self.include_a_num = QCheckBox('Include a number', self)
         chbox_vert_3.addWidget(self.include_a_num)
         # Create a checkbox that allows the user to capitalize the words
-        self.capital_words = QCheckBox('Capitalized words', self)
+        self.capital_words = QCheckBox('Capitalize words', self)
         chbox_vert_3.addWidget(self.capital_words)
         chbox_horiz_3.addSpacing(15)
         chbox_horiz_3.addLayout(chbox_vert_3)
@@ -211,11 +211,10 @@ class PasswordGenUI(QWidget):
         self.pphrase_gen_btn = QPushButton('Generate Passphrase', self)
         pphrase_gen_layout.addWidget(self.pphrase_gen_btn)
         pphrase_gen_layout.addSpacing(100)
-        pword_gen_btn.clicked.connect(self.generate_pword)
 
         left_layout.addLayout(pphrase_gen_layout)
         left_layout.addSpacing(25)
-        self.pphrase_gen_btn.clicked.connect(self.generate_pphrase)
+        #self.pphrase_gen_btn.clicked.connect(self.generate_pphrase)
 
     # -------------------------------------------------------------------------
     # Right Layout of Application
@@ -229,7 +228,7 @@ class PasswordGenUI(QWidget):
         # Init right layout of main layout
         right_layout = QVBoxLayout(self)
         right_spacer = QSpacerItem(10, 20, QSizePolicy.Minimum,
-                                       QSizePolicy.Expanding)
+                                   QSizePolicy.Expanding)
 
         # Create a top right box containing the password generator output. Each
         # widget has a spacer between it and the next widget
@@ -288,7 +287,7 @@ class PasswordGenUI(QWidget):
         calc_stren_layout = QHBoxLayout(self)
         calc_stren_layout.addSpacing(100)
         self.calc_stren_btn = QPushButton('Calculate Strength', self)
-        self.calc_stren_btn.clicked.connect(self.test_strength)
+        #self.calc_stren_btn.clicked.connect(self.test_strength)
         calc_stren_layout.addWidget(self.calc_stren_btn)
         calc_stren_layout.addSpacing(100)
         bottom_right_box.addLayout(calc_stren_layout)
@@ -444,7 +443,7 @@ class PasswordGenUI(QWidget):
         print('Generating a passphrase with these parameters:')
         [print(x + ':', pphrase_params[x], end='   ') for x in pphrase_params]
         print('\n')
-        self.output_line.setText(generate_passphrase(pphrase_params))
+        #self.output_line.setText(generate_passphrase(pphrase_params))
 
     def copy_output(self):
         """Copies the generated output to the clipboard"""
@@ -474,9 +473,9 @@ class PasswordGenUI(QWidget):
         strength data
         """
         print('Testing this password:', self.strength_input.text())
-        result = get_strength(self.strength_input.text())
-        self.strength_output.setText(result[0])
-        self.t2crack_output.setText(result[1])
+        #result = get_strength(self.strength_input.text())
+        #self.strength_output.setText(result[0])
+        #self.t2crack_output.setText(result[1])
 
     def clear_strength(self):
         """Clears all text fields in the strength tester section"""
@@ -499,7 +498,7 @@ class PasswordGenUI(QWidget):
                                      QMessageBox.Close | QMessageBox.Cancel)
 
         if reply == QMessageBox.Close:
-            close_word_gen_server_conn()
+            #close_word_gen_server_conn()
             event.accept()
         else:
             event.ignore()
@@ -511,6 +510,10 @@ if __name__ == '__main__':
     pw_gen = PasswordGenUI()
     pw_gen.resize(750, 700)
     pw_gen.show()
-
+    # Open the sqq styles file and read in the css-alike styling code
+    with open('styles.qss', 'r') as f:
+        style = f.read()
+        # Set the stylesheet of the application
+        app.setStyleSheet(style)
     sys.exit(app.exec())
 
