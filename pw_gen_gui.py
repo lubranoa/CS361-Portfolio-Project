@@ -8,12 +8,14 @@
 
 
 import sys
+import qtawesome as qta
 from PySide6.QtWidgets import (QApplication, QWidget, QFrame, QLabel,
                                QHBoxLayout, QVBoxLayout, QCheckBox,
                                QPushButton, QLineEdit, QSlider, QSpinBox,
                                QSpacerItem, QSizePolicy, QButtonGroup,
-                               QMessageBox)
-from PySide6.QtCore import Qt
+                               QMessageBox, QStyle)
+from PySide6.QtCore import Qt, QSize
+from PySide6.QtGui import QPixmap
 from password_gen import generate_password
 # from passphrase_gen import generate_passphrase
 # from get_words_client import close_word_gen_server_conn
@@ -73,8 +75,10 @@ class PasswordGenUI(QWidget):
         # Create 6 checkboxes and a label and add each to the left layout
         chbox_horiz_1 = QHBoxLayout(self)
         chbox_vert_1 = QVBoxLayout(self)
-        self.lowercase_chbx = QCheckBox('Include a - z', self)
-        chbox_vert_1.addWidget(self.lowercase_chbx)
+        self.lowercase_chbx = AppCheckbox(self, 'Include a - z', chbox_vert_1)
+
+        # self.lowercase_chbx = QCheckBox('Include a - z', self)
+        # chbox_vert_1.addWidget(self.lowercase_chbx)
         self.uppercase_chbx = QCheckBox('Include A - Z', self)
         chbox_vert_1.addWidget(self.uppercase_chbx)
         self.digit_chbx = QCheckBox('Include 0 - 9', self)
@@ -119,7 +123,7 @@ class PasswordGenUI(QWidget):
 
         # Create a button group and add all 6 checkboxes to it
         self.pword_chbxs = QButtonGroup(self)
-        self.pword_chbxs.addButton(self.lowercase_chbx, 1)
+        self.pword_chbxs.addButton(self.lowercase_chbx.chbx, 1)
         self.pword_chbxs.addButton(self.uppercase_chbx, 2)
         self.pword_chbxs.addButton(self.digit_chbx, 3)
         self.pword_chbxs.addButton(self.special_chbx, 4)
@@ -131,7 +135,7 @@ class PasswordGenUI(QWidget):
         self.pword_chbxs.setExclusive(False)
 
         # Set lowercase and digit boxes to be checked by default
-        self.lowercase_chbx.setChecked(True)
+        self.lowercase_chbx.chbx.setChecked(True)
         self.digit_chbx.setChecked(True)
 
         left_layout.addSpacing(25)
@@ -206,7 +210,7 @@ class PasswordGenUI(QWidget):
         pphrase_gen_layout = QHBoxLayout(self)
         pphrase_gen_layout.addSpacing(100)
         pphrase_btn = AppButton(self, 'Generate Passphrase',
-                                self.generate_pphrase, pphrase_gen_layout)
+                                self.get_pphrase, pphrase_gen_layout)
         pphrase_gen_layout.addSpacing(100)
         left_layout.addLayout(pphrase_gen_layout)
         left_layout.addSpacing(25)
@@ -412,7 +416,7 @@ class PasswordGenUI(QWidget):
         print('\n')
         self.output_line.setText(generate_password(pword_params))
 
-    def generate_pphrase(self):
+    def get_pphrase(self):
         """
         Will pass collected parameters to a microservice that will generate a
         passphrase and return it to this function
@@ -488,6 +492,21 @@ class PasswordGenUI(QWidget):
             event.accept()
         else:
             event.ignore()
+
+
+class AppCheckbox(QWidget):
+    """"""
+    def __init__(self, parent=None, text=None, layout=None):
+        super(AppCheckbox, self).__init__(parent)
+        self.chbx = QCheckBox(text, parent)
+        icon_pixmap = qta.icon('fa5.question-circle').pixmap(QSize(16, 16))
+        icon_label = QLabel(parent)
+        icon_label.setPixmap(icon_pixmap)
+        chbx_layout = QHBoxLayout(parent)
+        chbx_layout.addWidget(self.chbx)
+        chbx_layout.addWidget(icon_label)
+        chbx_layout.addSpacing(75)
+        layout.addLayout(chbx_layout)
 
 
 class AppButton(QWidget):
