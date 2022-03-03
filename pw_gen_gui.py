@@ -139,13 +139,10 @@ class PasswordGenUI(QWidget):
         # Create a "generate password" button, add it to the left layout, and
         # connect its "clicked" signal to the generate_pword slot
         pword_gen_layout = QHBoxLayout(self)
-        pword_gen_layout.addSpacing(100)
-        self.pword_gen_btn = QPushButton('Generate Password', self)
-        pword_gen_layout.addWidget(self.pword_gen_btn)
-        self.pword_gen_btn.setStyleSheet('background-color: light blue')
-        pword_gen_layout.addSpacing(100)
-        self.pword_gen_btn.clicked.connect(self.generate_pword)
-
+        pword_gen_layout.addSpacing(90)
+        pword_btn = AppButton(self, 'Generate Password',
+                              self.get_pword, pword_gen_layout)
+        pword_gen_layout.addSpacing(90)
         left_layout.addLayout(pword_gen_layout)
         left_layout.addSpacing(30)
 
@@ -208,13 +205,11 @@ class PasswordGenUI(QWidget):
         # connect its "clicked" signal to the generate_pphrase slot
         pphrase_gen_layout = QHBoxLayout(self)
         pphrase_gen_layout.addSpacing(100)
-        self.pphrase_gen_btn = QPushButton('Generate Passphrase', self)
-        pphrase_gen_layout.addWidget(self.pphrase_gen_btn)
+        pphrase_btn = AppButton(self, 'Generate Passphrase',
+                                self.generate_pphrase, pphrase_gen_layout)
         pphrase_gen_layout.addSpacing(100)
-
         left_layout.addLayout(pphrase_gen_layout)
         left_layout.addSpacing(25)
-        self.pphrase_gen_btn.clicked.connect(self.generate_pphrase)
 
     # -------------------------------------------------------------------------
     # Right Layout of Application
@@ -248,19 +243,15 @@ class PasswordGenUI(QWidget):
         # Create and add a button layout with 3 buttons, copy, calculate
         # strength, and clear buttons
         output_btn_layout = QHBoxLayout(self)
-        self.copy_btn = QPushButton('Copy', self)
-        output_btn_layout.addWidget(self.copy_btn)
-        self.calc_output_btn = QPushButton('Calculate Strength')
-        output_btn_layout.addWidget(self.calc_output_btn)
-        self.clear_btn = QPushButton('Clear', self)
-        output_btn_layout.addWidget(self.clear_btn)
+        copy_btn = AppButton(self, 'Copy', self.copy_output, output_btn_layout)
+        calc_out_btn = AppButton(self, 'Calculate Strength',
+                                 self.calc_output_strength, output_btn_layout)
+        clear_btn = AppButton(self, 'Clear',
+                              self.clear_output, output_btn_layout)
+
         top_right_box.addLayout(output_btn_layout)
         top_right_box.addSpacing(25)
         top_right_box.addItem(right_spacer)
-
-        self.copy_btn.clicked.connect(self.copy_output)
-        self.calc_output_btn.clicked.connect(self.calc_output_strength)
-        self.clear_btn.clicked.connect(self.clear_output)
 
         # Create a bottom right box holding the password strength output. Each
         # widget has a spacer between it and the next widget
@@ -282,9 +273,9 @@ class PasswordGenUI(QWidget):
         # Create and add a "Calculate Strength" button
         calc_stren_layout = QHBoxLayout(self)
         calc_stren_layout.addSpacing(100)
-        self.calc_stren_btn = QPushButton('Calculate Strength', self)
-        #self.calc_stren_btn.clicked.connect(self.test_strength)
-        calc_stren_layout.addWidget(self.calc_stren_btn)
+        # Change None to self.test_strength later
+        calc_stren_btn = AppButton(self, 'Calculate Strength',
+                                   None, calc_stren_layout)
         calc_stren_layout.addSpacing(100)
         bottom_right_box.addLayout(calc_stren_layout)
         bottom_right_box.addSpacing(25)
@@ -311,11 +302,10 @@ class PasswordGenUI(QWidget):
 
         clear_stren_layout = QHBoxLayout(self)
         clear_stren_layout.addSpacing(100)
-        self.clear_strength_fields = QPushButton('Clear Strength Fields', self)
-        clear_stren_layout.addWidget(self.clear_strength_fields)
+        clear_stren_btn = AppButton(self, 'Clear Strength Fields',
+                                    self.clear_strength, clear_stren_layout)
         clear_stren_layout.addSpacing(100)
         bottom_right_box.addLayout(clear_stren_layout)
-        self.clear_strength_fields.clicked.connect(self.clear_strength)
         bottom_right_box.addItem(right_spacer)
 
         # Add the two inner right boxes to the right layout of the main layout
@@ -394,7 +384,7 @@ class PasswordGenUI(QWidget):
         """Does this"""
         pass
 
-    def generate_pword(self):
+    def get_pword(self):
         """
         Will pass collected parameters to a microservice that will generate a
         password and return it to this function
@@ -498,6 +488,24 @@ class PasswordGenUI(QWidget):
             event.accept()
         else:
             event.ignore()
+
+
+class AppButton(QWidget):
+    """
+    Custom QT Widget that creates a QPushButton with text, connects a click
+    signal event, and adds it to a layout.
+
+    AppButton(parent, text, on_click, layout)
+        - parent: parent widget
+        - text: the display text of the button (string)
+        - on_click: action that should happen on button click (class method)
+        - layout: the QT layout that the object button should be added to
+    """
+    def __init__(self, parent=None, text='Click Me', on_click=None, layout=None):
+        super(AppButton, self).__init__(parent)
+        self.button = QPushButton(text, parent)
+        self.button.clicked.connect(on_click)
+        layout.addWidget(self.button)
 
 
 if __name__ == '__main__':
