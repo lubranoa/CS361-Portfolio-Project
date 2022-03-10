@@ -75,29 +75,21 @@ class PasswordGenUI(QWidget):
         # Create 6 checkboxes and a label and add each to the left layout
         chbox_horiz_1 = QHBoxLayout(self)
         chbox_vert_1 = QVBoxLayout(self)
-        self.lowercase_chbx = AppCheckbox(self, 'Include a - z', chbox_vert_1)
-
-        # self.lowercase_chbx = QCheckBox('Include a - z', self)
-        # chbox_vert_1.addWidget(self.lowercase_chbx)
-        self.uppercase_chbx = QCheckBox('Include A - Z', self)
-        chbox_vert_1.addWidget(self.uppercase_chbx)
-        self.digit_chbx = QCheckBox('Include 0 - 9', self)
-        chbox_vert_1.addWidget(self.digit_chbx)
-        self.special_chbx = QCheckBox('Include !@#$%^&&*', self)
-        chbox_vert_1.addWidget(self.special_chbx)
+        self.lower_chbx = AppCheckbox(self, 'Include a - z', chbox_vert_1)
+        self.upper_chbx = AppCheckbox(self, 'Include A - Z', chbox_vert_1)
+        self.digit_chbx = AppCheckbox(self, 'Include 0 - 9', chbox_vert_1)
+        self.spec_chbx = AppCheckbox(self, 'Include !@#$%^&&*', chbox_vert_1)
         chbox_horiz_1.addSpacing(15)
         chbox_horiz_1.addLayout(chbox_vert_1)
+        chbox_horiz_1.addSpacing(150)
         left_layout.addLayout(chbox_horiz_1)
 
         left_layout.addWidget(QLabel('<h4>Advanced Options:</h4>', self))
 
         chbox_horiz_2 = QHBoxLayout(self)
         chbox_vert_2 = QVBoxLayout(self)
-        ambig_chbx = QCheckBox(
-            'Exclude ambiguous characters i, l, I, L, 0, O, etc.', self)
-        chbox_vert_2.addWidget(ambig_chbx)
-        dup_chbx = QCheckBox('No duplicate characters', self)
-        chbox_vert_2.addWidget(dup_chbx)
+        ambig_chbx = AppCheckbox(self, 'Exclude ambiguous characters 1, l, I, 0, O, etc.', chbox_vert_2)
+        dup_chbx = AppCheckbox(self, 'No duplicate characters', chbox_vert_2)
 
         min_num_layout = QHBoxLayout(self)
         min_num_layout.addWidget(QLabel('Minimum Numbers', self))
@@ -123,20 +115,20 @@ class PasswordGenUI(QWidget):
 
         # Create a button group and add all 6 checkboxes to it
         self.pword_chbxs = QButtonGroup(self)
-        self.pword_chbxs.addButton(self.lowercase_chbx.chbx, 1)
-        self.pword_chbxs.addButton(self.uppercase_chbx, 2)
-        self.pword_chbxs.addButton(self.digit_chbx, 3)
-        self.pword_chbxs.addButton(self.special_chbx, 4)
-        self.pword_chbxs.addButton(ambig_chbx, 5)
-        self.pword_chbxs.addButton(dup_chbx, 6)
+        self.pword_chbxs.addButton(self.lower_chbx.chbx, 1)
+        self.pword_chbxs.addButton(self.upper_chbx.chbx, 2)
+        self.pword_chbxs.addButton(self.digit_chbx.chbx, 3)
+        self.pword_chbxs.addButton(self.spec_chbx.chbx, 4)
+        self.pword_chbxs.addButton(ambig_chbx.chbx, 5)
+        self.pword_chbxs.addButton(dup_chbx.chbx, 6)
 
         # Set the checkbox group to non-exclusive so that multiple boxes can
         # be checked at one time
         self.pword_chbxs.setExclusive(False)
 
         # Set lowercase and digit boxes to be checked by default
-        self.lowercase_chbx.chbx.setChecked(True)
-        self.digit_chbx.setChecked(True)
+        self.lower_chbx.chbx.setChecked(True)
+        self.digit_chbx.chbx.setChecked(True)
 
         left_layout.addSpacing(25)
 
@@ -494,18 +486,36 @@ class PasswordGenUI(QWidget):
             event.ignore()
 
 
-class AppCheckbox(QWidget):
+class TooltipIcon(QWidget):
     """"""
+    def __init__(self, parent=None):
+        super(TooltipIcon, self).__init__(parent)
+        icon_conv = qta.icon('fa5.question-circle', color='#666666').pixmap(
+            QSize(14, 14))
+        icon_pixmap = QPixmap(icon_conv)
+        self.icon_label = QLabel(parent)
+        self.icon_label.setPixmap(icon_pixmap)
+        self.icon_label.setObjectName('question-icon')
+
+
+class AppCheckbox(QWidget):
+    """
+    Custom QT Widget that creates a QCheckbox with text and an icon, and adds
+    it to a layout.
+
+    AppButton(parent, text, on_click, layout)
+        - parent: parent widget
+        - text: the display text of the button (string)
+        - layout: the QT layout that the object button should be added to
+    """
     def __init__(self, parent=None, text=None, layout=None):
         super(AppCheckbox, self).__init__(parent)
         self.chbx = QCheckBox(text, parent)
-        icon_pixmap = qta.icon('fa5.question-circle').pixmap(QSize(16, 16))
-        icon_label = QLabel(parent)
-        icon_label.setPixmap(icon_pixmap)
         chbx_layout = QHBoxLayout(parent)
         chbx_layout.addWidget(self.chbx)
-        chbx_layout.addWidget(icon_label)
-        chbx_layout.addSpacing(75)
+        chbx_layout.addSpacing(7)
+        self.tooltip_icon = TooltipIcon(parent)
+        chbx_layout.addWidget(self.tooltip_icon.icon_label)
         layout.addLayout(chbx_layout)
 
 

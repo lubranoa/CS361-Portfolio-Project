@@ -5,7 +5,7 @@ QPushButton {
     border-width: 2px;
     border-radius: 6px;
     font: bold 12px;
-    min-width: 69px;
+    min-width: 70px;
     padding: 6px;
     margin-left: 4px;
     margin-right: 4px;
@@ -13,4 +13,13 @@ QPushButton {
 QPushButton:pressed {
     background-color: #99ceff;
     border-style: inset;
+}
+QCheckBox {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    spacing: 7px;
+    font-size: 13px;
+}
+QLabel#question-icon {
+    margin-top: 2px;
 }
