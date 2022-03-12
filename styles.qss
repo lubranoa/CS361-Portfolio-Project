@@ -20,6 +20,6 @@ QCheckBox {
     spacing: 7px;
     font-size: 13px;
 }
-QLabel#question-icon {
+QLabel#info-icon {
     margin-top: 2px;
 }

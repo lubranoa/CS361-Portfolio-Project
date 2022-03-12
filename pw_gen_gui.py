@@ -15,7 +15,7 @@ from PySide6.QtWidgets import (QApplication, QWidget, QFrame, QLabel,
                                QSpacerItem, QSizePolicy, QButtonGroup,
                                QMessageBox, QStyle)
 from PySide6.QtCore import Qt, QSize
-from PySide6.QtGui import QPixmap
+from PySide6.QtGui import QPixmap, QIcon
 from password_gen import generate_password
 # from passphrase_gen import generate_passphrase
 # from get_words_client import close_word_gen_server_conn
@@ -42,7 +42,7 @@ class PasswordGenUI(QWidget):
         left_layout = QVBoxLayout(self)
 
         # Add a new <h3> header for the password section
-        left_layout.addWidget(QLabel('<h3>Generate Password:</h3>', self))
+        SectionTitle(self, 'Generate Password:', left_layout)
 
         # Create a layout for choosing password length using a synced spin box
         # and slider with appropriate min and max labels
@@ -136,14 +136,13 @@ class PasswordGenUI(QWidget):
         # connect its "clicked" signal to the generate_pword slot
         pword_gen_layout = QHBoxLayout(self)
         pword_gen_layout.addSpacing(90)
-        pword_btn = AppButton(self, 'Generate Password',
-                              self.get_pword, pword_gen_layout)
+        AppButton(self, 'Generate Password', self.get_pword, pword_gen_layout)
         pword_gen_layout.addSpacing(90)
         left_layout.addLayout(pword_gen_layout)
         left_layout.addSpacing(30)
 
         # Add a new <h3> header for the passphrase section
-        left_layout.addWidget(QLabel('<h3>Generate Passphrase:</h3>', self))
+        SectionTitle(self, 'Generate Passphrase:', left_layout)
 
         # Create a layout for choosing passphrase length using a synced spin
         # box and slider with appropriate min and max labels
@@ -227,7 +226,7 @@ class PasswordGenUI(QWidget):
 
         # Add spacers and a new <h3> header for the ouput section
         top_right_box.addItem(right_spacer)
-        top_right_box.addWidget(QLabel('<h3>Password Output:</h3>', self))
+        SectionTitle(self, 'Password Output:', top_right_box)
         top_right_box.addItem(right_spacer)
 
         # Create and add a read-only output line to the top right box
@@ -255,8 +254,7 @@ class PasswordGenUI(QWidget):
 
         # Add spacers and a new <h3> header for the strength tester section
         bottom_right_box.addItem(right_spacer)
-        bottom_right_box.addWidget(
-            QLabel('<h3>Test Password Strength:</h3>', self))
+        SectionTitle(self, 'Test Password Strength:', bottom_right_box)
         bottom_right_box.addItem(right_spacer)
 
         # Create and add a password input line to bottom right box
@@ -486,16 +484,27 @@ class PasswordGenUI(QWidget):
             event.ignore()
 
 
-class TooltipIcon(QWidget):
+class InfoIcon(QWidget):
     """"""
     def __init__(self, parent=None):
-        super(TooltipIcon, self).__init__(parent)
-        icon_conv = qta.icon('fa5.question-circle', color='#666666').pixmap(
-            QSize(14, 14))
-        icon_pixmap = QPixmap(icon_conv)
+        super(InfoIcon, self).__init__(parent)
+        pixmapi = QStyle.SP_MessageBoxInformation
+        icon_pixmap = self.style().standardIcon(pixmapi)
         self.icon_label = QLabel(parent)
-        self.icon_label.setPixmap(icon_pixmap)
-        self.icon_label.setObjectName('question-icon')
+        self.icon_label.setPixmap(icon_pixmap.pixmap(QSize(14, 14)))
+        self.icon_label.setObjectName('info-icon')
+
+
+class SectionTitle(QWidget):
+    """"""
+    def __init__(self, parent=None, text='Untitled', layout=None):
+        super(SectionTitle, self).__init__(parent)
+        title_layout = QHBoxLayout(parent)
+        self.info_icon = InfoIcon(parent)
+        title_layout.addWidget(self.info_icon.icon_label)
+        title_layout.addWidget(QLabel('<h3>' + text + '</h3>', parent))
+        title_layout.addSpacing(200)
+        layout.addLayout(title_layout)
 
 
 class AppCheckbox(QWidget):
@@ -513,9 +522,6 @@ class AppCheckbox(QWidget):
         self.chbx = QCheckBox(text, parent)
         chbx_layout = QHBoxLayout(parent)
         chbx_layout.addWidget(self.chbx)
-        chbx_layout.addSpacing(7)
-        self.tooltip_icon = TooltipIcon(parent)
-        chbx_layout.addWidget(self.tooltip_icon.icon_label)
         layout.addLayout(chbx_layout)
 
 
