@@ -225,7 +225,6 @@ class PasswordGenUI(QWidget):
         top_right_box = QVBoxLayout(self)
 
         # Add spacers and a new <h3> header for the ouput section
-        top_right_box.addItem(right_spacer)
         SectionTitle(self, 'Password Output:', top_right_box)
         top_right_box.addItem(right_spacer)
 
@@ -492,6 +491,7 @@ class InfoIcon(QWidget):
         icon_pixmap = self.style().standardIcon(pixmapi)
         self.icon_label = QLabel(parent)
         self.icon_label.setPixmap(icon_pixmap.pixmap(QSize(14, 14)))
+        self.icon_label.setAlignment(Qt.AlignRight)
         self.icon_label.setObjectName('info-icon')
 
 
@@ -500,10 +500,11 @@ class SectionTitle(QWidget):
     def __init__(self, parent=None, text='Untitled', layout=None):
         super(SectionTitle, self).__init__(parent)
         title_layout = QHBoxLayout(parent)
+        title = QLabel(text, parent)
+        title.setObjectName('section-title')
+        title_layout.addWidget(title)
         self.info_icon = InfoIcon(parent)
         title_layout.addWidget(self.info_icon.icon_label)
-        title_layout.addWidget(QLabel('<h3>' + text + '</h3>', parent))
-        title_layout.addSpacing(200)
         layout.addLayout(title_layout)
 
 

@@ -21,5 +21,12 @@ QCheckBox {
     font-size: 13px;
 }
 QLabel#info-icon {
-    margin-top: 2px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-right: 0.5px;
+}
+QLabel#section-title {
+    font: bold 14px;
+    padding-top: 4px;
+    padding-bottom: 4px;
 }
