@@ -21,6 +21,9 @@ from password_gen import generate_password
 # from get_words_client import close_word_gen_server_conn
 # from get_strength_client import get_strength
 
+min_pw_len, max_pw_len = 8, 30
+min_pph_len, max_pph_len = 2, 8
+
 
 class PasswordGenUI(QWidget):
 
@@ -41,36 +44,10 @@ class PasswordGenUI(QWidget):
         # Init left layout of main layout
         left_layout = QVBoxLayout(self)
 
-        # Add a new <h3> header for the password section
         SectionTitle(self, 'Generate Password:', left_layout)
 
-        # Create a layout for choosing password length using a synced spin box
-        # and slider with appropriate min and max labels
-        length_layout = QHBoxLayout(self)
-        length_layout.addSpacing(15)
-        length_layout.addWidget(QLabel('Length', self))
-        length_layout.addSpacing(5)
-        self.len_spinbox = QSpinBox(self)
-        self.len_spinbox.setRange(8, 30)
-        length_layout.addWidget(self.len_spinbox)
-        length_layout.addSpacing(10)
-        length_layout.addWidget(QLabel('<h4>8</h4>', self))
-        length_layout.addSpacing(5)
-        self.len_slider = QSlider(Qt.Horizontal, self)
-        self.len_slider.setRange(8, 30)
-        self.len_slider.setTickInterval(2)
-        self.len_slider.setTickPosition(self.len_slider.TicksBelow)
-        length_layout.addWidget(self.len_slider)
-        length_layout.addSpacing(5)
-        length_layout.addWidget(QLabel('<h4>30</h4>', self))
-        # Connect the value changed signals to slots that synchronize the spin
-        # box and slider values
-        self.len_spinbox.valueChanged.connect(self.set_len_slider)
-        self.len_slider.valueChanged.connect(self.set_len_spinbox)
-        self.len_slider.setValue(12)
-
-        # Add the password length layout to the left layout
-        left_layout.addLayout(length_layout)
+        len_params = {'parent': self, 'text': 'Length', 'tick_pos': 2, 'layout': left_layout}
+        self.pw_len_set = AppLengthSetter(self, 'Length', min_pw_len, max_pw_len, 12, 2, left_layout)
 
         # Create 6 checkboxes and a label and add each to the left layout
         chbox_horiz_1 = QHBoxLayout(self)
@@ -146,29 +123,7 @@ class PasswordGenUI(QWidget):
 
         # Create a layout for choosing passphrase length using a synced spin
         # box and slider with appropriate min and max labels
-        num_words_layout = QHBoxLayout(self)
-        num_words_layout.addSpacing(15)
-        num_words_layout.addWidget(QLabel('Number of Words', self))
-        num_words_layout.addSpacing(5)
-        self.pphrase_spinbox = QSpinBox(self)
-        self.pphrase_spinbox.setRange(2, 8)
-        num_words_layout.addWidget(self.pphrase_spinbox)
-        num_words_layout.addSpacing(10)
-        num_words_layout.addWidget(QLabel('2', self))
-        num_words_layout.addSpacing(5)
-        self.pphrase_slider = QSlider(Qt.Horizontal, self)
-        self.pphrase_slider.setRange(2, 8)
-        num_words_layout.addWidget(self.pphrase_slider)
-        num_words_layout.addSpacing(5)
-        num_words_layout.addWidget(QLabel('8', self))
-        left_layout.addLayout(num_words_layout)
-        # Connect the value changed signals to slots that synchronize the spin
-        # box and slider values
-        self.pphrase_spinbox.valueChanged.connect(self.set_pphrase_slider)
-        self.pphrase_slider.valueChanged.connect(self.set_pphrase_spinbox)
-        self.pphrase_slider.setValue(3)
-        self.pphrase_slider.setTickInterval(1)
-        self.pphrase_slider.setTickPosition(self.pphrase_slider.TicksBelow)
+        self.pph_len_set = AppLengthSetter(self, 'Number of Words:', min_pph_len, max_pph_len, 3, 1, left_layout)
 
         # Create a layout for input of a separator character with a label and
         # an input line and add it to th left layout
@@ -341,34 +296,6 @@ class PasswordGenUI(QWidget):
 
     # TODO: Add help or info to menu bar
 
-    def set_len_spinbox(self):
-        """
-        When signaled by a change in the password length slider's value,
-        updates the value of the password length spin box
-        """
-        self.len_spinbox.setValue(self.len_slider.value())
-
-    def set_len_slider(self):
-        """
-        When signaled by a change in the password length spin box's value,
-        updates the value of the password length slider
-        """
-        self.len_slider.setValue(self.len_spinbox.value())
-
-    def set_pphrase_spinbox(self):
-        """
-        When signaled by a change in the passphrase length slider's value,
-        updates the value of the passphrase length spin box
-        """
-        self.pphrase_spinbox.setValue(self.pphrase_slider.value())
-
-    def set_pphrase_slider(self):
-        """
-        When signaled by a change in the passphrase length spin box's value,
-        updates the value of the passphrase length slider
-        """
-        self.pphrase_slider.setValue(self.pphrase_spinbox.value())
-
     def update_len_from_min_nums(self):
         """Does this"""
         pass
@@ -391,7 +318,7 @@ class PasswordGenUI(QWidget):
 
         for i in range(len(params)):
             if i == 0:
-                pword_params[params[i]] = self.len_slider.value()
+                pword_params[params[i]] = self.pw_len_set.get_value()
             elif i < 7:
                 curr_chbx = self.pword_chbxs.button(i)
                 pword_params[params[i]] = curr_chbx.isChecked()
@@ -414,7 +341,7 @@ class PasswordGenUI(QWidget):
         """
 
         params = ['words', 'sep_char', 'incl_num', 'cap_words']
-        pphrase_params = {params[0]: self.pphrase_slider.value(),
+        pphrase_params = {params[0]: self.pph_len_set.get_value(),
                           params[1]: self.char_input.text(),
                           params[2]: self.include_a_num.isChecked(),
                           params[3]: self.capital_words.isChecked()}
@@ -448,7 +375,7 @@ class PasswordGenUI(QWidget):
 
     def test_strength(self):
         """
-        Calls a microservice that will calculate and returen password
+        Calls a microservice that will calculate and return password
         strength data
         """
         print('Testing this password:', self.strength_input.text())
@@ -506,6 +433,47 @@ class SectionTitle(QWidget):
         self.info_icon = InfoIcon(parent)
         title_layout.addWidget(self.info_icon.icon_label)
         layout.addLayout(title_layout)
+
+
+class AppLengthSetter(QWidget):
+    """"""
+    def __init__(self, parent=None, text='Untitled', low=0, hi=100, init_val=0, tick_pos=1, layout=None):
+        super(AppLengthSetter, self).__init__(parent)
+        self.lyt = QHBoxLayout(parent)
+        self.lyt.addSpacing(15)
+        self.lyt.addWidget(QLabel(text, parent))
+        self.lyt.addSpacing(5)
+        self.spinbox = QSpinBox(parent)
+        self.spinbox.setRange(low, hi)
+        self.lyt.addWidget(self.spinbox)
+        self.lyt.addSpacing(10)
+        self.lyt.addWidget(QLabel('<h4>'+str(low)+'</h4>', parent))
+        self.lyt.addSpacing(5)
+        self.slider = QSlider(Qt.Horizontal, parent)
+        self.slider.setRange(low, hi)
+        self.slider.setTickPosition(self.slider.TicksBelow)
+        self.slider.setTickInterval(tick_pos)
+        self.lyt.addWidget(self.slider)
+        self.lyt.addSpacing(5)
+        self.lyt.addWidget(QLabel('<h4>'+str(hi)+'</h4>', parent))
+        self.spinbox.valueChanged.connect(self._set_slider_from_spinbox)
+        self.slider.valueChanged.connect(self._set_spinbox_from_slider)
+        self.slider.setValue(init_val)
+
+        # Add the password length layout to the left layout
+        layout.addLayout(self.lyt)
+
+    def _set_slider_from_spinbox(self):
+        """"""
+        self.slider.setValue(self.spinbox.value())
+
+    def _set_spinbox_from_slider(self):
+        """"""
+        self.spinbox.setValue(self.slider.value())
+
+    def get_value(self):
+        """"""
+        return self.slider.value()
 
 
 class AppCheckbox(QWidget):
