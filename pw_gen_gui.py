@@ -411,82 +411,91 @@ class PasswordGenUI(QWidget):
 
 
 class InfoIcon(QWidget):
-    """"""
+    """
+    Creates an instance of a label containing a pixmap of the default Qt info
+    icon to be added into section titles
+    """
     def __init__(self, parent=None):
         super(InfoIcon, self).__init__(parent)
         pixmapi = QStyle.SP_MessageBoxInformation
         icon_pixmap = self.style().standardIcon(pixmapi)
-        self.icon_label = QLabel(parent)
-        self.icon_label.setPixmap(icon_pixmap.pixmap(QSize(14, 14)))
-        self.icon_label.setAlignment(Qt.AlignRight)
-        self.icon_label.setObjectName('info-icon')
+        self.label = QLabel(parent)
+        self.label.setPixmap(icon_pixmap.pixmap(QSize(14, 14)))
+        self.label.setAlignment(Qt.AlignRight)
+        self.label.setObjectName('info-icon')
 
 
 class SectionTitle(QWidget):
-    """"""
+    """
+    Creates an instance of a section title with specified text and adds it to
+    the specified layout
+    """
     def __init__(self, parent=None, text='Untitled', layout=None):
         super(SectionTitle, self).__init__(parent)
-        title_layout = QHBoxLayout(parent)
+        title_lyt = QHBoxLayout(parent)
         title = QLabel(text, parent)
         title.setObjectName('section-title')
-        title_layout.addWidget(title)
+        title_lyt.addWidget(title)
         self.info_icon = InfoIcon(parent)
-        title_layout.addWidget(self.info_icon.icon_label)
-        layout.addLayout(title_layout)
+        title_lyt.addWidget(self.info_icon.label)
+        layout.addLayout(title_lyt)
 
 
 class AppLengthSetter(QWidget):
-    """"""
-    def __init__(self, parent=None, text='Untitled', low=0, hi=100, init_val=0, tick_pos=1, layout=None):
+    """
+    Creates a custom length setter with a main label, min and max values, a
+    starting value, a step value for ticks, then adds it to a specified layout
+
+    Syncs the values of the slider and spinbox using private class methods
+
+    Has a method to get the current value of the length setter widget
+    """
+    def __init__(self, parent=None, text='Untitled', low=0, hi=100, init_val=0, tick_pos=0, layout=None):
         super(AppLengthSetter, self).__init__(parent)
         self.lyt = QHBoxLayout(parent)
         self.lyt.addSpacing(15)
         self.lyt.addWidget(QLabel(text, parent))
         self.lyt.addSpacing(5)
-        self.spinbox = QSpinBox(parent)
-        self.spinbox.setRange(low, hi)
-        self.lyt.addWidget(self.spinbox)
+        # Create and add spinbox
+        self._spinbox = QSpinBox(parent)
+        self._spinbox.setRange(low, hi)
+        self.lyt.addWidget(self._spinbox)
         self.lyt.addSpacing(10)
+        # Create and add left slider label
         self.lyt.addWidget(QLabel('<h4>'+str(low)+'</h4>', parent))
         self.lyt.addSpacing(5)
-        self.slider = QSlider(Qt.Horizontal, parent)
-        self.slider.setRange(low, hi)
-        self.slider.setTickPosition(self.slider.TicksBelow)
-        self.slider.setTickInterval(tick_pos)
-        self.lyt.addWidget(self.slider)
+        # Create and add slider with ticks
+        self._slider = QSlider(Qt.Horizontal, parent)
+        self._slider.setRange(low, hi)
+        self._slider.setTickPosition(self._slider.TicksBelow)
+        self._slider.setTickInterval(tick_pos)
+        self.lyt.addWidget(self._slider)
         self.lyt.addSpacing(5)
         self.lyt.addWidget(QLabel('<h4>'+str(hi)+'</h4>', parent))
-        self.spinbox.valueChanged.connect(self._set_slider_from_spinbox)
-        self.slider.valueChanged.connect(self._set_spinbox_from_slider)
-        self.slider.setValue(init_val)
-
-        # Add the password length layout to the left layout
+        self._spinbox.valueChanged.connect(self._set_slider_from_spinbox)
+        self._slider.valueChanged.connect(self._set_spinbox_from_slider)
+        self._slider.setValue(init_val)
         layout.addLayout(self.lyt)
 
     def _set_slider_from_spinbox(self):
         """"""
-        self.slider.setValue(self.spinbox.value())
+        self._slider.setValue(self._spinbox.value())
 
     def _set_spinbox_from_slider(self):
         """"""
-        self.spinbox.setValue(self.slider.value())
+        self._spinbox.setValue(self._slider.value())
 
     def get_value(self):
         """"""
-        return self.slider.value()
+        return self._slider.value()
 
 
 class AppCheckbox(QWidget):
     """
-    Custom QT Widget that creates a QCheckbox with text and an icon, and adds
-    it to a layout.
-
-    AppButton(parent, text, on_click, layout)
-        - parent: parent widget
-        - text: the display text of the button (string)
-        - layout: the QT layout that the object button should be added to
+    Custom QT Widget that creates a QCheckbox with specified text and adds
+    it to a specified layout
     """
-    def __init__(self, parent=None, text=None, layout=None):
+    def __init__(self, parent=None, text='Untitled', layout=None):
         super(AppCheckbox, self).__init__(parent)
         self.chbx = QCheckBox(text, parent)
         chbx_layout = QHBoxLayout(parent)
@@ -497,13 +506,7 @@ class AppCheckbox(QWidget):
 class AppButton(QWidget):
     """
     Custom QT Widget that creates a QPushButton with text, connects a click
-    signal event, and adds it to a layout.
-
-    AppButton(parent, text, on_click, layout)
-        - parent: parent widget
-        - text: the display text of the button (string)
-        - on_click: action that should happen on button click (class method)
-        - layout: the QT layout that the object button should be added to
+    signal event, and adds it to the specified layout
     """
     def __init__(self, parent=None, text='Click Me', on_click=None, layout=None):
         super(AppButton, self).__init__(parent)
