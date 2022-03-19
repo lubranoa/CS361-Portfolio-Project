@@ -44,10 +44,7 @@ def get_words(num):
     Returns the list of words back to the calling script
     """
     word_str = send(str(num))
-
-    # If last character of word str is a comma, slice it off
-    if word_str[-1] == ',':
-        word_str = word_str[:-1]
+    word_str = word_str.strip(' ')
 
     words = word_str.split(' ')
     print('word list:', words)

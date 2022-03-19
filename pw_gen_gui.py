@@ -8,21 +8,24 @@
 
 
 import sys
-import qtawesome as qta
 from PySide6.QtWidgets import (QApplication, QWidget, QFrame, QLabel,
                                QHBoxLayout, QVBoxLayout, QCheckBox,
                                QPushButton, QLineEdit, QSlider, QSpinBox,
                                QSpacerItem, QSizePolicy, QButtonGroup,
-                               QMessageBox, QStyle)
+                               QMessageBox, QStyle, QToolTip)
 from PySide6.QtCore import Qt, QSize
-from PySide6.QtGui import QPixmap, QIcon
+from PySide6.QtGui import QCursor
 from password_gen import generate_password
-# from passphrase_gen import generate_passphrase
-# from get_words_client import close_word_gen_server_conn
-# from get_strength_client import get_strength
+from passphrase_gen import generate_passphrase
+from get_words_client import close_word_gen_server_conn
+from get_strength_client import get_strength
 
 min_pw_len, max_pw_len = 8, 30
 min_pph_len, max_pph_len = 2, 8
+
+# Tooltip strings
+increase_str = 'Can Increase Password Strength'
+decrease_str = 'May Decrease Password Strength'
 
 
 class PasswordGenUI(QWidget):
@@ -44,18 +47,19 @@ class PasswordGenUI(QWidget):
         # Init left layout of main layout
         left_layout = QVBoxLayout(self)
 
-        SectionTitle(self, 'Generate Password:', left_layout)
+        pw_tooltip = 'Generate a password of a specified length with your \n' \
+                     'choice of customization options. Generally, the more \n' \
+                     'options you select, the more secure the password.'
+        SectionTitle(self, 'Generate Password:', pw_tooltip, left_layout)
 
-        len_params = {'parent': self, 'text': 'Length', 'tick_pos': 2, 'layout': left_layout}
-        self.pw_len_set = AppLengthSetter(self, 'Length', min_pw_len, max_pw_len, 12, 2, left_layout)
+        self.pw_len_set = AppLengthSetter(self, 'Length', 'Character Length of Generated Password', min_pw_len, max_pw_len, 12, 2, left_layout)
 
-        # Create 6 checkboxes and a label and add each to the left layout
         chbox_horiz_1 = QHBoxLayout(self)
         chbox_vert_1 = QVBoxLayout(self)
-        self.lower_chbx = AppCheckbox(self, 'Include a - z', chbox_vert_1)
-        self.upper_chbx = AppCheckbox(self, 'Include A - Z', chbox_vert_1)
-        self.digit_chbx = AppCheckbox(self, 'Include 0 - 9', chbox_vert_1)
-        self.spec_chbx = AppCheckbox(self, 'Include !@#$%^&&*', chbox_vert_1)
+        self.lower_chbx = AppCheckbox(self, 'Include a - z', increase_str, chbox_vert_1)
+        self.upper_chbx = AppCheckbox(self, 'Include A - Z', increase_str, chbox_vert_1)
+        self.digit_chbx = AppCheckbox(self, 'Include 0 - 9', increase_str, chbox_vert_1)
+        self.spec_chbx = AppCheckbox(self, 'Include !@#$%^&&*', increase_str, chbox_vert_1)
         chbox_horiz_1.addSpacing(15)
         chbox_horiz_1.addLayout(chbox_vert_1)
         chbox_horiz_1.addSpacing(150)
@@ -65,8 +69,8 @@ class PasswordGenUI(QWidget):
 
         chbox_horiz_2 = QHBoxLayout(self)
         chbox_vert_2 = QVBoxLayout(self)
-        ambig_chbx = AppCheckbox(self, 'Exclude ambiguous characters 1, l, I, 0, O, etc.', chbox_vert_2)
-        dup_chbx = AppCheckbox(self, 'No duplicate characters', chbox_vert_2)
+        ambig_chbx = AppCheckbox(self, 'Exclude ambiguous characters 1, l, I, 0, O, etc.', decrease_str, chbox_vert_2)
+        dup_chbx = AppCheckbox(self, 'No duplicate characters', decrease_str, chbox_vert_2)
 
         min_num_layout = QHBoxLayout(self)
         min_num_layout.addWidget(QLabel('Minimum Numbers', self))
@@ -90,7 +94,6 @@ class PasswordGenUI(QWidget):
         chbox_horiz_2.addLayout(chbox_vert_2)
         left_layout.addLayout(chbox_horiz_2)
 
-        # Create a button group and add all 6 checkboxes to it
         self.pword_chbxs = QButtonGroup(self)
         self.pword_chbxs.addButton(self.lower_chbx.chbx, 1)
         self.pword_chbxs.addButton(self.upper_chbx.chbx, 2)
@@ -99,34 +102,26 @@ class PasswordGenUI(QWidget):
         self.pword_chbxs.addButton(ambig_chbx.chbx, 5)
         self.pword_chbxs.addButton(dup_chbx.chbx, 6)
 
-        # Set the checkbox group to non-exclusive so that multiple boxes can
-        # be checked at one time
         self.pword_chbxs.setExclusive(False)
-
-        # Set lowercase and digit boxes to be checked by default
         self.lower_chbx.chbx.setChecked(True)
         self.digit_chbx.chbx.setChecked(True)
 
         left_layout.addSpacing(25)
 
-        # Create a "generate password" button, add it to the left layout, and
-        # connect its "clicked" signal to the generate_pword slot
         pword_gen_layout = QHBoxLayout(self)
         pword_gen_layout.addSpacing(90)
-        AppButton(self, 'Generate Password', self.get_pword, pword_gen_layout)
+        AppButton(self, 'Generate Password', 'Generate a New Password', self.get_pword, pword_gen_layout)
         pword_gen_layout.addSpacing(90)
         left_layout.addLayout(pword_gen_layout)
         left_layout.addSpacing(30)
 
-        # Add a new <h3> header for the passphrase section
-        SectionTitle(self, 'Generate Passphrase:', left_layout)
+        pph_tooltip = 'Generate a passhprase with a specified number of words \n' \
+                      'and some customization options. Generally, the more \n' \
+                      'options you select, the more secure the passphrase.'
+        SectionTitle(self, 'Generate Passphrase:', pph_tooltip, left_layout)
 
-        # Create a layout for choosing passphrase length using a synced spin
-        # box and slider with appropriate min and max labels
-        self.pph_len_set = AppLengthSetter(self, 'Number of Words:', min_pph_len, max_pph_len, 3, 1, left_layout)
+        self.pph_len_set = AppLengthSetter(self, 'Word Amount:', 'Number of Words in Generated Passphrase', min_pph_len, max_pph_len, 3, 1, left_layout)
 
-        # Create a layout for input of a separator character with a label and
-        # an input line and add it to th left layout
         sep_char_layout = QHBoxLayout(self)
         sep_char_layout.addSpacing(15)
         sep_char_layout.addWidget(QLabel('Separator Character:', self))
@@ -135,17 +130,15 @@ class PasswordGenUI(QWidget):
         self.char_input.setMaxLength(1)
         self.char_input.setPlaceholderText('!@#$%^&* Recommended')
         sep_char_layout.addWidget(self.char_input)
-        sep_char_layout.addSpacing(45)
+        sep_char_layout.addSpacing(40)
         left_layout.addLayout(sep_char_layout)
 
         chbox_horiz_3 = QHBoxLayout(self)
         chbox_vert_3 = QVBoxLayout(self)
         # Create a checkbox that allows the user to include a number
-        self.include_a_num = QCheckBox('Include a number', self)
-        chbox_vert_3.addWidget(self.include_a_num)
+        self.include_a_num = AppCheckbox(self, 'Include Number', increase_str, chbox_vert_3)
         # Create a checkbox that allows the user to capitalize the words
-        self.capital_words = QCheckBox('Capitalize words', self)
-        chbox_vert_3.addWidget(self.capital_words)
+        self.capital_words = AppCheckbox(self, 'Capitalize words', increase_str, chbox_vert_3)
         chbox_horiz_3.addSpacing(15)
         chbox_horiz_3.addLayout(chbox_vert_3)
         left_layout.addLayout(chbox_horiz_3)
@@ -154,10 +147,10 @@ class PasswordGenUI(QWidget):
         # Create a "generate passphrase" button, add it to the left layout, and
         # connect its "clicked" signal to the generate_pphrase slot
         pphrase_gen_layout = QHBoxLayout(self)
-        pphrase_gen_layout.addSpacing(100)
-        pphrase_btn = AppButton(self, 'Generate Passphrase',
+        pphrase_gen_layout.addSpacing(90)
+        pphrase_btn = AppButton(self, 'Generate Passphrase', 'Generate a New Passphrase',
                                 self.get_pphrase, pphrase_gen_layout)
-        pphrase_gen_layout.addSpacing(100)
+        pphrase_gen_layout.addSpacing(90)
         left_layout.addLayout(pphrase_gen_layout)
         left_layout.addSpacing(25)
 
@@ -180,7 +173,10 @@ class PasswordGenUI(QWidget):
         top_right_box = QVBoxLayout(self)
 
         # Add spacers and a new <h3> header for the ouput section
-        SectionTitle(self, 'Password Output:', top_right_box)
+        output_tooltip = 'All generated passwords and passphrases will be output \n' \
+                         'here. It can be copied and pasted into other programs \n' \
+                         'like web browsers or password managers.'
+        SectionTitle(self, 'Password Output:', output_tooltip, top_right_box)
         top_right_box.addItem(right_spacer)
 
         # Create and add a read-only output line to the top right box
@@ -192,10 +188,10 @@ class PasswordGenUI(QWidget):
         # Create and add a button layout with 3 buttons, copy, calculate
         # strength, and clear buttons
         output_btn_layout = QHBoxLayout(self)
-        copy_btn = AppButton(self, 'Copy', self.copy_output, output_btn_layout)
-        calc_out_btn = AppButton(self, 'Calculate Strength',
+        copy_btn = AppButton(self, 'Copy', 'Copy Password', self.copy_output, output_btn_layout)
+        calc_out_btn = AppButton(self, 'Calculate Strength', 'Calculate Password Strength',
                                  self.calc_output_strength, output_btn_layout)
-        clear_btn = AppButton(self, 'Clear',
+        clear_btn = AppButton(self, 'Clear', 'Clear Password Output',
                               self.clear_output, output_btn_layout)
 
         top_right_box.addLayout(output_btn_layout)
@@ -208,7 +204,10 @@ class PasswordGenUI(QWidget):
 
         # Add spacers and a new <h3> header for the strength tester section
         bottom_right_box.addItem(right_spacer)
-        SectionTitle(self, 'Test Password Strength:', bottom_right_box)
+        stren_tooltip = 'Test the generated passwords and passphrases as well as \n' \
+                        'your own passwords here. This will tell you how strong it \n' \
+                        'is and how long it would take to crack.'
+        SectionTitle(self, 'Test Password Strength:', stren_tooltip, bottom_right_box)
         bottom_right_box.addItem(right_spacer)
 
         # Create and add a password input line to bottom right box
@@ -220,13 +219,13 @@ class PasswordGenUI(QWidget):
 
         # Create and add a "Calculate Strength" button
         calc_stren_layout = QHBoxLayout(self)
-        calc_stren_layout.addSpacing(100)
+        calc_stren_layout.addSpacing(90)
         # Change None to self.test_strength later
-        calc_stren_btn = AppButton(self, 'Calculate Strength',
+        calc_stren_btn = AppButton(self, 'Calculate Strength', 'Calculate Password Strength',
                                    None, calc_stren_layout)
-        calc_stren_layout.addSpacing(100)
+        calc_stren_layout.addSpacing(90)
         bottom_right_box.addLayout(calc_stren_layout)
-        bottom_right_box.addSpacing(25)
+        bottom_right_box.addSpacing(30)
         bottom_right_box.addItem(right_spacer)
 
         # Create and add a read-only strength output line to bottom right box
@@ -249,10 +248,10 @@ class PasswordGenUI(QWidget):
         bottom_right_box.addItem(right_spacer)
 
         clear_stren_layout = QHBoxLayout(self)
-        clear_stren_layout.addSpacing(100)
-        clear_stren_btn = AppButton(self, 'Clear Strength Fields',
+        clear_stren_layout.addSpacing(90)
+        clear_stren_btn = AppButton(self, 'Clear Strength Fields', 'Clear Strength Tester Output',
                                     self.clear_strength, clear_stren_layout)
-        clear_stren_layout.addSpacing(100)
+        clear_stren_layout.addSpacing(90)
         bottom_right_box.addLayout(clear_stren_layout)
         bottom_right_box.addItem(right_spacer)
 
@@ -285,24 +284,6 @@ class PasswordGenUI(QWidget):
 
         # Set the window layout to the main layout
         self.setLayout(main_layout)
-
-    # TODO: Add "are you sure you want to quit?" popup
-
-    # TODO: Add "are you sure you want to clear the output?" popup
-
-    # TODO: Add "are you sure you want to clear the strength output?" popup
-
-    # TODO: Add tooltips to customization options
-
-    # TODO: Add help or info to menu bar
-
-    def update_len_from_min_nums(self):
-        """Does this"""
-        pass
-
-    def update_len_from_min_spec(self):
-        """Does this"""
-        pass
 
     def get_pword(self):
         """
@@ -343,13 +324,13 @@ class PasswordGenUI(QWidget):
         params = ['words', 'sep_char', 'incl_num', 'cap_words']
         pphrase_params = {params[0]: self.pph_len_set.get_value(),
                           params[1]: self.char_input.text(),
-                          params[2]: self.include_a_num.isChecked(),
-                          params[3]: self.capital_words.isChecked()}
+                          params[2]: self.include_a_num.chbx.isChecked(),
+                          params[3]: self.capital_words.chbx.isChecked()}
 
         print('Generating a passphrase with these parameters:')
         [print(x + ':', pphrase_params[x], end='   ') for x in pphrase_params]
         print('\n')
-        #self.output_line.setText(generate_passphrase(pphrase_params))
+        self.output_line.setText(generate_passphrase(pphrase_params))
 
     def copy_output(self):
         """Copies the generated output to the clipboard"""
@@ -379,9 +360,9 @@ class PasswordGenUI(QWidget):
         strength data
         """
         print('Testing this password:', self.strength_input.text())
-        #result = get_strength(self.strength_input.text())
-        #self.strength_output.setText(result[0])
-        #self.t2crack_output.setText(result[1])
+        result = get_strength(self.strength_input.text())
+        self.strength_output.setText(result[0])
+        self.t2crack_output.setText(result[1])
 
     def clear_strength(self):
         """Clears all text fields in the strength tester section"""
@@ -404,7 +385,7 @@ class PasswordGenUI(QWidget):
                                      QMessageBox.Close | QMessageBox.Cancel)
 
         if reply == QMessageBox.Close:
-            #close_word_gen_server_conn()
+            close_word_gen_server_conn()
             event.accept()
         else:
             event.ignore()
@@ -415,7 +396,7 @@ class InfoIcon(QWidget):
     Creates an instance of a label containing a pixmap of the default Qt info
     icon to be added into section titles
     """
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, tooltip='Tooltip'):
         super(InfoIcon, self).__init__(parent)
         pixmapi = QStyle.SP_MessageBoxInformation
         icon_pixmap = self.style().standardIcon(pixmapi)
@@ -423,6 +404,7 @@ class InfoIcon(QWidget):
         self.label.setPixmap(icon_pixmap.pixmap(QSize(14, 14)))
         self.label.setAlignment(Qt.AlignRight)
         self.label.setObjectName('info-icon')
+        self.label.setToolTip(tooltip)
 
 
 class SectionTitle(QWidget):
@@ -430,13 +412,13 @@ class SectionTitle(QWidget):
     Creates an instance of a section title with specified text and adds it to
     the specified layout
     """
-    def __init__(self, parent=None, text='Untitled', layout=None):
+    def __init__(self, parent=None, text='Untitled', tooltip='Tooltip', layout=None):
         super(SectionTitle, self).__init__(parent)
         title_lyt = QHBoxLayout(parent)
         title = QLabel(text, parent)
         title.setObjectName('section-title')
         title_lyt.addWidget(title)
-        self.info_icon = InfoIcon(parent)
+        self.info_icon = InfoIcon(parent, tooltip)
         title_lyt.addWidget(self.info_icon.label)
         layout.addLayout(title_lyt)
 
@@ -450,7 +432,7 @@ class AppLengthSetter(QWidget):
 
     Has a method to get the current value of the length setter widget
     """
-    def __init__(self, parent=None, text='Untitled', low=0, hi=100, init_val=0, tick_pos=0, layout=None):
+    def __init__(self, parent=None, text='Untitled', tooltip='Tooltip', low=0, hi=100, init_val=0, tick_pos=0, layout=None):
         super(AppLengthSetter, self).__init__(parent)
         self.lyt = QHBoxLayout(parent)
         self.lyt.addSpacing(15)
@@ -475,6 +457,8 @@ class AppLengthSetter(QWidget):
         self._spinbox.valueChanged.connect(self._set_slider_from_spinbox)
         self._slider.valueChanged.connect(self._set_spinbox_from_slider)
         self._slider.setValue(init_val)
+        self._spinbox.setToolTip(tooltip)
+        self._slider.setToolTip(tooltip)
         layout.addLayout(self.lyt)
 
     def _set_slider_from_spinbox(self):
@@ -495,9 +479,10 @@ class AppCheckbox(QWidget):
     Custom QT Widget that creates a QCheckbox with specified text and adds
     it to a specified layout
     """
-    def __init__(self, parent=None, text='Untitled', layout=None):
+    def __init__(self, parent=None, text='Untitled', tooltip='Tooltip', layout=None):
         super(AppCheckbox, self).__init__(parent)
         self.chbx = QCheckBox(text, parent)
+        self.chbx.setToolTip(tooltip)
         chbx_layout = QHBoxLayout(parent)
         chbx_layout.addWidget(self.chbx)
         layout.addLayout(chbx_layout)
@@ -508,10 +493,12 @@ class AppButton(QWidget):
     Custom QT Widget that creates a QPushButton with text, connects a click
     signal event, and adds it to the specified layout
     """
-    def __init__(self, parent=None, text='Click Me', on_click=None, layout=None):
+    def __init__(self, parent=None, text='Click Me', tooltip='tooltip', on_click=None, layout=None):
         super(AppButton, self).__init__(parent)
         self.button = QPushButton(text, parent)
         self.button.clicked.connect(on_click)
+        self.button.setToolTip(tooltip)
+        self.button.setCursor(QCursor(Qt.PointingHandCursor))
         layout.addWidget(self.button)
 
 

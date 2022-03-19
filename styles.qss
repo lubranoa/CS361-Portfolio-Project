@@ -30,3 +30,9 @@ QLabel#section-title {
     padding-top: 4px;
     padding-bottom: 4px;
 }
+QLineEdit {
+    padding: 4px;
+    font: 12px;
+    margin-top: 4px;
+    margin-top: 4px;
+}
