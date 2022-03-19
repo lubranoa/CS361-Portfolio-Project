@@ -222,7 +222,7 @@ class PasswordGenUI(QWidget):
         calc_stren_layout.addSpacing(90)
         # Change None to self.test_strength later
         calc_stren_btn = AppButton(self, 'Calculate Strength', 'Calculate Password Strength',
-                                   None, calc_stren_layout)
+                                   self.test_strength, calc_stren_layout)
         calc_stren_layout.addSpacing(90)
         bottom_right_box.addLayout(calc_stren_layout)
         bottom_right_box.addSpacing(30)
