@@ -76,11 +76,18 @@ This project was designed to use two of my teammates' microservices that I no lo
       ![Screenshot of Password Generator's graphical user interface that includes the sections, Generate Password, Generate Passphrase, Password Output, and Test Password Strength](/img/361-app-window.png)
   
   - Password Generation
-    - Before generating a password, choose a length, make character inclusion selections, and optionally add advanced options, then click on generate password to get a password. Hover over tooltips and options to get more information.
+    - Before generating a random-character password, choose a length, make character inclusion selections, and optionally add advanced options, then click on generate password to get a password. Hover over tooltips and options to get more information.
+    - The password will then be displayed in the Password Output section for you to copy it, test it, or clear it.
       ![Screenshot of the Generate Password and Password Output sections that shows which options were selected under Generate Password and the generated password in the Password Output section](/img/361-password-gen.png)
 
   - Passphrase Generation
-    - TODO
+    - When generating a random-word passphrase, choose how many words will be in it, what character will separate them, and decide if you want a number after a word and/or the words capitalized. Hover over tooltips and options to get more information.
+    - The passphrase will then be displayed in the Password Output section.
+
+<div align="center">
+  <img src="./img/361-phrase-opts-2.png" alt="Screenshot of the Generate Passphrase section that shows which options were selected under Generate Passphrase" width="300px" align="middle"></img>
+  <img src="./img/361-phrase-gen.png" alt="Screenshot of the Password Output section that shows a generated passphrase" width="300px" align="middle"></img>
+</div>
 
   - Password Output
     - TODO
