@@ -59,16 +59,37 @@ Password Generator is a Python desktop application for users to generate passwor
 Password Generator offers an array of features for a user to interact with.
   - **Custom Password Generation**: Allows a user to generate a custom random-character password with customization options like length and the characters that will be used in generation.
   - **Passphrase Generation with Options**: Provides a way for users to generate passphrases, a string of random words, with options like number of words and a separator character for adding or removing complexity.
-  - **Strength Testing**: text here
-  - **Clean and Simple GUI**: text here
-  - **Informational Tooltips**: text here 
+  - **Strength Testing**: Provides password strength estimation for users to test any password or passphrase for a strength score and an estimated time to crack.
+  - **Clean and Simple GUI**: The application's user interface is uncomplicated and easy to use and understand so that any user can understand the application.
+  - **Informational Tooltips**: Tooltips throughout the application guide users on the use of the application as well as how making certain selections can impact passwords.
+  - **Microservice Architecture**: TODO
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- Usage -->
 ## Usage
 
-Explain how to use or interact with your project
+This project was designed to use two of my teammates' microservices that I no longer have access to so this project will not run unless I get access to them again or write them myself. The following is how the program could be used when everything was all together.
+
+  - Main Program Window
+    - A simple and intuitive GUI that gives the user plenty of useful information on program use without the need for a tutorial. The app's GUI is broken into four logical sections, Generate Password, Generate Passphrase, Password Output, and Test Password Strength. Each of those sections allow a user to do exactly as they are titled.
+      ![Screenshot of Password Generator's graphical user interface that includes the sections, Generate Password, Generate Passphrase, Password Output, and Test Password Strength](/img/361-app-window.png)
+  
+  - Password Generation
+    - Before generating a password, choose a length, make character inclusion selections, and optionally add advanced options, then click on generate password to get a password. Hover over tooltips and options to get more information.
+      ![Screenshot of the Generate Password and Password Output sections that shows which options were selected under Generate Password and the generated password in the Password Output section](/img/361-password-gen.png)
+
+  - Passphrase Generation
+    - TODO
+
+  - Password Output
+    - TODO
+
+  - Testing Password Strength
+    - TODO
+
+  - Tooltips on Hover
+    - TODO
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
