@@ -43,7 +43,9 @@
 <!-- Project Description -->
 ## Project Description
 
-Password Generator is a Python desktop application for users to generate passwords and test password strength. It is the culmination of a term-long group project using Agile methodologies to design and develop an application implemented using a microservices architecture. Each person on the team had to create their own individual project as well as a microservice for one or more of the team's applications. The microservices were implemented as socket server applications, which meant that our main projects were their clients. Project development was organized into sprints, covering tasks such as defining requirements, designing UI, team collaboration, minimum viable products, service integration, and evaluation and revision.
+Password Generator is a Python desktop application for users to generate passwords and test password strength. It is the culmination of a term-long group project using Agile methods to design and develop an application implemented using a microservices architecture. Each person on the team had to create their own individual project as well as a microservice for one or more of the team's applications. The microservices were implemented as socket server applications, which meant that our main projects were their clients. 
+
+Project development was organized into sprints, covering tasks such as defining requirements, designing UI, collaborating as a team on microservices, implementing a minimum viable product, service integration, and code evaluation and refactoring. Other Agile methods involved in this project's development were the use of task management systems, like [Trello][trello-url] or [Asana][asana-url], as scrum boards for sprints, spikes, and user stories.
 
 <!-- Technologies Used -->
 ## Technologies Used
@@ -52,6 +54,7 @@ Password Generator is a Python desktop application for users to generate passwor
   - [![pyside6][pyside6]][pyside6-url]
   - [![qt-style][qt-style]][qt-style-url]
   - [![socket][socket]][socket-url]
+  - [![asana][asana]][asana-url]
 
 <!-- Features -->
 ## Features
@@ -74,7 +77,9 @@ This project was designed to use two of my teammates' microservices that I no lo
   - Main Program Window
     - A simple and intuitive GUI that gives the user plenty of useful information on program use without the need for a tutorial. The app's GUI is broken into four logical sections, Generate Password, Generate Passphrase, Password Output, and Test Password Strength. Each of those sections allow a user to do exactly as they are titled.
 
-      ![Screenshot of Password Generator's graphical user interface that includes the sections, Generate Password, Generate Passphrase, Password Output, and Test Password Strength](/img/361-app-window.png)
+<p align="center">
+  <img src="./img/361-app-window.png" alt="Screenshot of Password Generator's graphical user interface that includes the sections, Generate Password, Generate Passphrase, Password Output, and Test Password Strength" width="600px"></img>
+</p>
   
   - Password Generation
     - Before generating a random-character password, choose a length, make character inclusion selections, and optionally add advanced options, then click on generate password to get a password. Hover over tooltips and options to get more information.
@@ -112,6 +117,16 @@ This project was designed to use two of my teammates' microservices that I no lo
 <!-- Skills Applied -->
 ## Skills Applied
 
+  - Python programming with sockets and custom QWidget classes
+  - Microservices architecture design and implementation
+  - GUI implementation using PySide6 (Qt for Python)
+  - Using Agile methods to implement steps of the SDLC
+  - Application design via defining requirements and creating user stories
+  - Class modeling using Unified Modeling Language and Sequence Diagrams
+  - UI/UX Design via paper prototyping and cognitive style heuristics
+  - Collaborative teamwork in a software engineering project
+  - Code evaluation and refactoring
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- Contact -->
@@ -119,13 +134,17 @@ This project was designed to use two of my teammates' microservices that I no lo
 
 Alexander Lubrano - [lubrano.alexander@gmail.com][email] - [LinkedIn][linkedin-url]
 
-Project Link: [https://github.com/lubranoa/<repo-name>][repo-url]
+Project Link: [https://github.com/lubranoa/CS361-Portfolio-Project][repo-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- Acknowledgements -->
 ## Acknowledgments
 
+  - [Qt for Python (PySide6) Documentation][pyside6-url]
+  - [Qt Style Sheets Documentation][qt-style-url]
+  - [zxcvbn Password Strength Estimator by Dropbox][zxcvbn-url]
+  - [Asana Task Management System][asana-url]
   - [Shields.io][shields-url]
   - [Simple Icons][icons-url]
 
@@ -137,18 +156,22 @@ Project Link: [https://github.com/lubranoa/<repo-name>][repo-url]
 [Python-url]: https://www.python.org/
 
 [pyside6]: https://img.shields.io/badge/PySide6_(Qt_for_Python)-grey?style=for-the-badge&logo=qt
-[pyside6-url]: https://pypi.org/project/PySide6/
+[pyside6-url]: https://doc.qt.io/qtforpython-6/index.html
 
 [qt-style]: https://img.shields.io/badge/Qt_Style_Sheets-grey?style=for-the-badge&logo=qt
 [qt-style-url]: https://doc.qt.io/qt-6/stylesheet.html
 
-[socket]: https://img.shields.io/badge/Python_sockets-grey?style=for-the-badge&logo=python&logoColor=ffd343
+[socket]: https://img.shields.io/badge/Python_sockets-3776AB?style=for-the-badge&logo=python&logoColor=ffd343
 [socket-url]: https://docs.python.org/3/library/socket.html
 
+[asana]: https://img.shields.io/badge/Asana_TSM-grey?style=for-the-badge&logo=asana
+[asana-url]: https://asana.com/
+
+[trello-url]: https://trello.com/
 [zxcvbn-url]: https://github.com/dropbox/zxcvbn
 [shields-url]: https://shields.io/
 [icons-url]: https://simpleicons.org/
 
 [email]: mailto:lubrano.alexander@gmail.com
 [linkedin-url]: www.linkedin.com/in/lubrano-alexander
-[repo-url]: https://github.com/lubranoa/
+[repo-url]: https://github.com/lubranoa/CS361-Portfolio-Project
