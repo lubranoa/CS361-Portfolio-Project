@@ -95,7 +95,7 @@ This project was designed to use two of my teammates' microservices that I no lo
 
 <p align="center">
   <img src="./img/361-phrase-opts-2.png" alt="Screenshot of the Generate Passphrase section that shows which options were selected under Generate Passphrase" width="350px" align="middle"></img>
-  <img src="./img/361-phrase-gen.png" alt="Screenshot of the Password Output section that shows a generated passphrase" width="350px" align="middle" style="padding-top: 10px; padding-bottom: 10px"></img>
+  <img src="./img/361-phrase-gen.png" alt="Screenshot of the Password Output section that shows a generated passphrase" width="350px" align="middle" style="padding-top: 10px !important; padding-bottom: 10px !important"></img>
 </p>
 
   - Password Output
@@ -109,7 +109,7 @@ This project was designed to use two of my teammates' microservices that I no lo
 
 <p align="center">
   <img src="./img/361-phrase-test.png" alt="Screenshot of the Test Password Strength section that lets a user input a password to see its strength score and estimated time to crack" width="350px" align="middle"></img>
-  <img src="./img/361-password-test-2.png" alt="Screenshot of the Password Output section that shows a generated passphrase" width="344px" align="middle" style="padding-top: 10px; padding-bottom: 10px"></img>
+  <img src="./img/361-password-test-2.png" alt="Screenshot of the Password Output section that shows a generated passphrase" width="344px" align="middle" style="padding-top: 10px !important; padding-bottom: 10px !important"></img>
 </p>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
