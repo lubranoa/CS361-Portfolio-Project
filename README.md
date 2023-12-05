@@ -59,13 +59,13 @@ Project development was organized into sprints, covering tasks such as defining 
 <!-- Features -->
 ## Features
 
-Password Generator offers an array of features for a user to interact with.
-  - **Custom Password Generation**: Allows a user to generate a custom random-character password with customization options like length and the characters that will be used in generation.
-  - **Passphrase Generation with Options**: Provides a way for users to generate passphrases, a string of random words, with options like number of words and a separator character for adding or removing complexity.
-  - **Strength Testing**: Provides password strength estimation for users to test any password or passphrase for a strength score and an estimated time to crack.
-  - **Clean and Simple GUI**: The application's user interface is uncomplicated and easy to use and understand so that any user can understand the application.
-  - **Informational Tooltips**: Tooltips throughout the application guide users on the use of the application as well as how making certain selections can impact passwords.
-  - **Microservices Architecture**: The application uses two different microservices via sockets that were created by two separate teammates. One gets a specified number of random words for passphrases, while the other uses [zxcvbn][zxcvbn-url], a password strength estimator written by Dropbox, for getting strength statistics. All other Python files except the GUI file were implemented with modularization in mind to fit a microservices architecture.
+  - Customizable random-character password generation
+  - Customizable random-word passphrase generation
+  - Password strength testing and time to crack estimation
+  - Clean and easy to use graphical user interface (GUI)
+  - Informational Tooltips to guide users
+  - Implemented with a microservices architecture
+  - Communicates with its two microservices via sockets
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
