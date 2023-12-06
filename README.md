@@ -60,11 +60,17 @@ Project development was organized into sprints, covering tasks such as defining 
 ## Features
 
   - Customizable random-character password generation
+
   - Customizable random-word passphrase generation
+
   - Password strength testing and time to crack estimation
+
   - Clean and easy to use graphical user interface (GUI)
+
   - Informational Tooltips to guide users
+
   - Implemented with a microservices architecture
+
   - Communicates with its two microservices via sockets
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -75,6 +81,7 @@ Project development was organized into sprints, covering tasks such as defining 
 This project was designed to use two of my teammates' microservices that I no longer have access to so this project will not run unless I get access to them again or write them myself. The following is how the program could be used when everything was all together.
 
   - **Main Program Window**
+
     - A simple and intuitive GUI that gives the user plenty of useful information on program use without the need for a tutorial. The app's GUI is broken into four logical sections, Generate Password, Generate Passphrase, Password Output, and Test Password Strength. Each of those sections allow a user to do exactly as they are titled.
 
 <p align="center">
@@ -82,6 +89,7 @@ This project was designed to use two of my teammates' microservices that I no lo
 </p>
   
   - **Password Generation**
+
     - Before generating a random-character password, choose a length, make character inclusion selections, and optionally add advanced options, then click on generate password to get a password. Hover over tooltips and options to get more information.
     - The password will then be displayed in the Password Output section for you to copy it, test it, or clear it.
 
@@ -90,6 +98,7 @@ This project was designed to use two of my teammates' microservices that I no lo
   ![Screenshot of the Generate Password section that shows which options were selected under Generate Password](/img/361-password-opts.png)   |  ![Screenshot of the Password Output section that shows a generated password](/img/361-password-gen-2.png)
 
   - **Passphrase Generation**
+
     - When generating a random-word passphrase, choose how many words will be in it, what character will separate them, and decide if you want a number after a word and/or the words capitalized. Hover over tooltips and options to get more information.
     - The passphrase will then be displayed in the Password Output section.
 
@@ -98,11 +107,13 @@ This project was designed to use two of my teammates' microservices that I no lo
   ![Screenshot of the Generate Passphrase section that shows which options were selected under Generate Passphrase](/img/361-phrase-opts-2.png)   |  ![Screenshot of the Password Output section that shows a generated passphrase](/img/361-phrase-gen.png)
 
   - **Password Output**
+
     - This section will display any generated passwords or passphrases the user generates. The password cannot be edited here in order to preserve the password. The only ways to remove the password from the output is to use the "Clear" button or to generate a new password.
     - The password can be highlighted and copied but the "Copy" button keeps the user from potentially missing a character when highlighting it.
     - The "Calculate Strength" button just saves the user from a few extra steps by automatically putting the password into the "Test Password Strength" section and calculating the strength.
 
   - **Testing Password Strength**
+
     - To test a password or passphrase, enter it into the input box and click "Calculate Strength". Any password can be tested here.
     - The application will the tell the user the strength on a scale from 0 (too guessable) to 4 (very unguessable) and the estimated time for it to be cracked.
 
@@ -116,13 +127,21 @@ This project was designed to use two of my teammates' microservices that I no lo
 ## Skills Applied
 
   - Python programming with sockets and custom QWidget classes
+
   - Microservices architecture design and implementation
+
   - GUI implementation using PySide6 (Qt for Python)
+
   - Using Agile methods to implement steps of the SDLC
+
   - Application design via defining requirements and creating user stories
+
   - Class modeling using Unified Modeling Language and Sequence Diagrams
+
   - UI/UX Design via paper prototyping and cognitive style heuristics
+
   - Collaborative teamwork in a software engineering project
+
   - Code evaluation and refactoring
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -171,5 +190,5 @@ Project Link: [https://github.com/lubranoa/CS361-Portfolio-Project][repo-url]
 [icons-url]: https://simpleicons.org/
 
 [email]: mailto:lubrano.alexander@gmail.com
-[linkedin-url]: www.linkedin.com/in/lubrano-alexander
+[linkedin-url]: https://www.linkedin.com/in/lubrano-alexander
 [repo-url]: https://github.com/lubranoa/CS361-Portfolio-Project
