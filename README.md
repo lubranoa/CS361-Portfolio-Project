@@ -5,7 +5,7 @@
 <div align="center">
   <!-- Badges -->
   <p>
-    <a href="www.linkedin.com/in/lubrano-alexander">
+    <a href="https://www.linkedin.com/in/lubrano-alexander">
       <img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin" alt="linkedin link" />
     </a>
     <a href="https://lubranoa.github.io">
@@ -36,7 +36,7 @@
   - [Features](#features)
   - [Usage](#usage)
   - [Skills Applied](#skills-applied)
-  - [Acknowledgments](#acknowledgements)
+  - [Acknowledgments](#acknowledgments)
 
 </details>
 
@@ -155,7 +155,7 @@ Project Link: [https://github.com/lubranoa/CS361-Portfolio-Project][repo-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<!-- Acknowledgements -->
+<!-- Acknowledgments -->
 ## Acknowledgments
 
   - [Qt for Python (PySide6) Documentation][pyside6-url]
