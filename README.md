@@ -36,6 +36,7 @@
   - [Features](#features)
   - [Usage](#usage)
   - [Skills Applied](#skills-applied)
+  - [Contact](#contact)
   - [Acknowledgments](#acknowledgments)
 
 </details>
