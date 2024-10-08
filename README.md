@@ -17,7 +17,7 @@
   </p>
   <br />
   <!-- Titles and Subtitles -->
-  <h1 align="center">Password Generator App</h1>
+  <h1 align="center">Microservices-Based Password Generator and Strength Tester</h1>
   <p align="center">
     <b>A PySide6 (Qt for Python) Desktop Application Using Microservices to Generate Passwords and Test their Strength</b>
   </p>
