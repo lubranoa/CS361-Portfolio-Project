@@ -50,7 +50,9 @@
 ## Project Description
 
 Password Generator is a Python desktop application designed for generating customizable passwords and testing their strength. Developed as part of a term-long group project, this application employs a microservices architecture and Agile methodologies to ensure scalability and flexibility.
+
 Each team member developed an individual project and contributed a microservice for one or more teammates’ applications. The microservices were implemented as socket server applications, making the main projects their clients.
+
 The development process was organized into sprints, covering tasks such as defining requirements, designing the user interface, and integrating microservices. Additional activities included implementing a minimum viable product (MVP), evaluating and refactoring code, and ensuring successful service integration. The team utilized task management systems like Trello and Asana as scrum boards to manage sprints, spikes, and user stories.
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
