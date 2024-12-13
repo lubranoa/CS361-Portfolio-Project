@@ -182,23 +182,15 @@ This project was designed to use two of my teammates' microservices that I no lo
 <!-- Skills Applied -->
 ## Skills Applied
 
-  - Python programming with sockets and custom QWidget classes
+  - Developed a Python desktop application with a user-friendly interface using PySide6.
 
-  - Microservices architecture design and implementation
+  - Implemented microservices architecture utilizing Python sockets for modular functionality.
 
-  - GUI implementation using PySide6 (Qt for Python)
+  - Applied Agile methodologies, including sprints and task management with Asana, to ensure timely delivery and adaptability.
 
-  - Using Agile methods to implement steps of the SDLC
+  - Collaborated with team members to design and integrate individual microservices into the main application.
 
-  - Application design via defining requirements and creating user stories
-
-  - Class modeling using Unified Modeling Language and Sequence Diagrams
-
-  - UI/UX Design via paper prototyping and cognitive style heuristics
-
-  - Collaborative teamwork in a software engineering project
-
-  - Code evaluation and refactoring
+  - Conducted code evaluation and refactoring to maintain code quality and performance.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
