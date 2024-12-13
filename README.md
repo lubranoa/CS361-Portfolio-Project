@@ -107,42 +107,75 @@ This project was designed to use two of my teammates' microservices that I no lo
 
 ### Password Generation
 
-  - Before generating a random-character password, choose a length, make character inclusion selections, and optionally add advanced options, then click on generate password to get a password. Hover over tooltips and options to get more information.
-  - The password will then be displayed in the Password Output section for you to copy it, test it, or clear it.
+  1. **Select Password Length:** Choose the desired length of the password using the slider.
 
-    Password Options           | Generated Password
-    :-------------------------:|:-------------------------:
-    ![Screenshot of the Generate Password section that shows which options were selected under Generate Password](/img/361-password-opts.png)   |  ![Screenshot of the Password Output section that shows a generated password](/img/361-password-gen-2.png)
+  2. **Character Options:** Check boxes to include or exclude:
+     - **Uppercase Letters**
+     - **Lowercase Letters**
+     - **Numbers**
+     - **Special Characters**
+
+  3. **Advanced Options:** Optionally, refine your password generation settings by:
+     - Excluding similar characters (e.g., 'i' and 'l')
+     - Avoiding ambiguous characters (e.g., '{}[]()/\')
+     - Setting a minimum number of digits
+     - Setting a minimum number of special characters
+
+  4. **Generate Password:** Click **Generate Password** to create your custom password.
+
+  5. **View Results:** The generated password will appear in the **Password Output** section.
+
+  Password Options           | Generated Password
+  :-------------------------:|:-------------------------:
+  ![Screenshot of the Generate Password section that shows which options were selected under Generate Password](/img/361-password-opts.png)   |  ![Screenshot of the Password Output section that shows a generated password](/img/361-password-gen-2.png)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Passphrase Generation
 
-  - When generating a random-word passphrase, choose how many words will be in it, what character will separate them, and decide if you want a number after a word and/or the words capitalized. Hover over tooltips and options to get more information.
-  - The passphrase will then be displayed in the Password Output section.
+  1. **Select Word Count:** Specify the number of words in the passphrase.
 
-    Passphrase Options         | Generated Passphrase
-    :-------------------------:|:-------------------------:
-    ![Screenshot of the Generate Passphrase section that shows which options were selected under Generate Passphrase](/img/361-phrase-opts-2.png)   |  ![Screenshot of the Password Output section that shows a generated passphrase](/img/361-phrase-gen.png)
+  2. **Customize Separators and Formatting:**
+     - Choose a character to separate words.
+     - Add optional formatting, such as:
+       - Numbers appended to words.
+       - Capitalization of words.
+
+  3. **Generate Passphrase:** Click **Generate Passphrase** to create your custom passphrase.
+
+  4. **View Results:** The passphrase will be displayed in the **Password Output** section.
+
+  Passphrase Options         | Generated Passphrase
+  :-------------------------:|:-------------------------:
+  ![Screenshot of the Generate Passphrase section that shows which options were selected under Generate Passphrase](/img/361-phrase-opts-2.png)   |  ![Screenshot of the Password Output section that shows a generated passphrase](/img/361-phrase-gen.png)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Password Output
 
-  - This section will display any generated passwords or passphrases the user generates. The password cannot be edited here in order to preserve the password. The only ways to remove the password from the output is to use the "Clear" button or to generate a new password.
-  - The password can be highlighted and copied but the "Copy" button keeps the user from potentially missing a character when highlighting it.
-  - The "Calculate Strength" button just saves the user from a few extra steps by automatically putting the password into the "Test Password Strength" section and calculating the strength.
+  1. **Display Area:** All generated passwords or passphrases appear here.
+
+  2. **Immutable Output:** The displayed password cannot be edited directly to ensure its integrity.
+
+  3. **Available Actions:**
+     - **Copy:** Highlight and copy the password manually or use the **Copy** button for accuracy.
+     - **Test:** Use the **Calculate Strength** button to send the password to the **Test Password Strength** section.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Testing Password Strength
 
-  - To test a password or passphrase, enter it into the input box and click "Calculate Strength". Any password can be tested here.
-  - The application will the tell the user the strength on a scale from 0 (too guessable) to 4 (very unguessable) and the estimated time for it to be cracked.
+  1. **Input Password:** Enter a password or passphrase in the input box.
 
-    Strength of Passphrase     | Strength of Easy Password
-    :-------------------------:|:-------------------------:
-    ![Screenshot of the Test Password Strength section that lets a user input a password to see its strength score and estimated time to crack](/img/361-phrase-test.png)   |  ![Screenshot of the Password Output section that shows a generated passphrase](/img/361-password-test-2.png)
+  2. **Calculate Strength:** Click **Calculate Strength** to analyze the password.
+
+  3. **Results:** The application provides:
+     - A strength score on a scale from 0 (too guessable) to 4 (very unguessable).
+     - The estimated time required to crack the password.
+
+  Strength of Passphrase     | Strength of Easy Password
+  :-------------------------:|:-------------------------:
+  ![Screenshot of the Test Password Strength section that lets a user input a password to see its strength score and estimated time to crack](/img/361-phrase-test.png)   |  ![Screenshot of the Password Output section that shows a generated passphrase](/img/361-password-test-2.png)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
