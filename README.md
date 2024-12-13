@@ -69,7 +69,7 @@ The development process was organized into sprints, covering tasks such as defin
 <!-- Features -->
 ## Features
 
-  - Provides customizable random-character password generation
+  - Provides customizable random-character password generation.
 
   - Provides customizable random-word passphrase generation.
 
@@ -88,11 +88,20 @@ This project was designed to use two of my teammates' microservices that I no lo
 
 ### Main Program Window
 
-  - A simple and intuitive GUI that gives the user plenty of useful information on program use without the need for a tutorial. The app's GUI is broken into four logical sections, Generate Password, Generate Passphrase, Password Output, and Test Password Strength. Each of those sections allow a user to do exactly as they are titled.
+  1. **Overview:** The application features a clean, intuitive GUI, designed to provide a seamless user experience without requiring a tutorial.
 
 <p align="center">
   <img src="./img/361-app-window.png" alt="Screenshot of Password Generator's graphical user interface that includes the sections, Generate Password, Generate Passphrase, Password Output, and Test Password Strength" width="600px"></img>
 </p>
+
+  2. **Layout:** The GUI is divided into four logical sections:
+
+    - **Generate Password**
+    - **Generate Passphrase**
+    - **Password Output**
+    - **Test Password Strength**
+
+  3. **User Guidance:** Tooltips are available throughout the interface to help users understand how to utilize various options and features.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
