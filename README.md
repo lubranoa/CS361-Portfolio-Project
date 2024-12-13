@@ -59,7 +59,6 @@ The development process was organized into sprints, covering tasks such as defin
 
   - [![Python][Python]][Python-url]
   - [![pyside6][pyside6]][pyside6-url]
-  - [![qt-style][qt-style]][qt-style-url]
   - [![socket][socket]][socket-url]
   - [![asana][asana]][asana-url]
 
@@ -68,19 +67,15 @@ The development process was organized into sprints, covering tasks such as defin
 <!-- Features -->
 ## Features
 
-  - Customizable random-character password generation
+  - Provides customizable random-character password generation
 
-  - Customizable random-word passphrase generation
+  - Provides customizable random-word passphrase generation.
 
-  - Password strength testing and time to crack estimation
+  - Implements password strength assessment with time-to-crack estimations.
 
-  - Clean and easy to use graphical user interface (GUI)
+  - Offers a user-friendly interface with informational tooltips.
 
-  - Informational Tooltips to guide users
-
-  - Implemented with a microservices architecture
-
-  - Communicates with its two microservices via sockets
+  - Integrates microservice architecture using Python sockets.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -176,7 +171,6 @@ Project Link: [https://github.com/lubranoa/CS361-Portfolio-Project][repo-url]
 ## Acknowledgments
 
   - [Qt for Python (PySide6) Documentation][pyside6-url]
-  - [Qt Style Sheets Documentation][qt-style-url]
   - [zxcvbn Password Strength Estimator by Dropbox][zxcvbn-url]
   - [Asana Task Management System][asana-url]
   - [Shields.io][shields-url]
@@ -191,9 +185,6 @@ Project Link: [https://github.com/lubranoa/CS361-Portfolio-Project][repo-url]
 
 [pyside6]: https://img.shields.io/badge/PySide6_(Qt_for_Python)-grey?style=for-the-badge&logo=qt
 [pyside6-url]: https://doc.qt.io/qtforpython-6/index.html
-
-[qt-style]: https://img.shields.io/badge/Qt_Style_Sheets-grey?style=for-the-badge&logo=qt
-[qt-style-url]: https://doc.qt.io/qt-6/stylesheet.html
 
 [socket]: https://img.shields.io/badge/Python_sockets-3776AB?style=for-the-badge&logo=python&logoColor=ffd343
 [socket-url]: https://docs.python.org/3/library/socket.html
