@@ -49,10 +49,9 @@
 <!-- Project Description -->
 ## Project Description
 
-Password Generator is a Python desktop application for users to generate passwords and test password strength. It is the culmination of a term-long group project using Agile methods to design and develop an application implemented using a microservices architecture. Each person on the team had to create their own individual project as well as a microservice for one or more of the team's applications. The microservices were implemented as socket server applications, which meant that our main projects were their clients. 
-
-Project development was organized into sprints, covering tasks such as defining requirements, designing UI, collaborating as a team on microservices, implementing a minimum viable product, service integration, and code evaluation and refactoring. Other Agile methods involved in this project's development were the use of task management systems, like [Trello][trello-url] or [Asana][asana-url], as scrum boards for sprints, spikes, and user stories.
-
+Password Generator is a Python desktop application designed for generating customizable passwords and testing their strength. Developed as part of a term-long group project, this application employs a microservices architecture and Agile methodologies to ensure scalability and flexibility.
+Each team member developed an individual project and contributed a microservice for one or more teammates’ applications. The microservices were implemented as socket server applications, making the main projects their clients.
+The development process was organized into sprints, covering tasks such as defining requirements, designing the user interface, and integrating microservices. Additional activities included implementing a minimum viable product (MVP), evaluating and refactoring code, and ensuring successful service integration. The team utilized task management systems like Trello and Asana as scrum boards to manage sprints, spikes, and user stories.
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- Technologies Used -->
