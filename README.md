@@ -96,10 +96,10 @@ This project was designed to use two of my teammates' microservices that I no lo
 
   2. **Layout:** The GUI is divided into four logical sections:
 
-    - **Generate Password**
-    - **Generate Passphrase**
-    - **Password Output**
-    - **Test Password Strength**
+     - **Generate Password**
+     - **Generate Passphrase**
+     - **Password Output**
+     - **Test Password Strength**
 
   3. **User Guidance:** Tooltips are available throughout the interface to help users understand how to utilize various options and features.
 
