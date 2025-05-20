@@ -49,7 +49,7 @@
 <!-- Project Description -->
 ## Project Description
 
-Password Generator is a Python desktop application designed for generating customizable passwords and testing their strength. Developed as part of a term-long group project, this application employs a microservices architecture and Agile methodologies to ensure scalability and flexibility.
+Password Generator is a Python desktop application built with PySide6 that generates customizable passwords and tests their strength. Developed as part of a term-long software engineering project, it uses a microservices architecture and Agile workflows to ensure modularity, collaboration, and scalability.
 
 Each team member developed an individual project and contributed a microservice for one or more teammates’ applications. The microservices were implemented as socket server applications, making the main projects their clients.
 
